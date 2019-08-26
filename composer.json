@@ -20,7 +20,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": "~7.1",
         "ext-json": "*",
         "lcobucci/jwt": "^3.3",
         "nyholm/psr7": "^1.1",
