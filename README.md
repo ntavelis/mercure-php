@@ -71,7 +71,7 @@ The below example is a controller, in symfony framework:
 namespace App\Controller;
 
 use Ntavelis\Mercure\Messages\Notification;
-use Ntavelis\Mercure\Providers\HashedTokenProvider;
+use Ntavelis\Mercure\Providers\PublisherTokenProvider;
 use Ntavelis\Mercure\Publisher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\Psr18Client;
@@ -89,7 +89,7 @@ class PublishController extends AbstractController
 
         $publisher = new Publisher(
             'http://localhost:3000/hub',
-            new HashedTokenProvider('aVerySecretKey'),
+            new PublisherTokenProvider('aVerySecretKey'),
             new Psr18Client()
         );
 
@@ -150,7 +150,7 @@ From our php server code, we now have to use the `Ntavelis\Mercure\Messages\Priv
 namespace App\Controller;
 
 use Ntavelis\Mercure\Messages\PrivateNotification;
-use Ntavelis\Mercure\Providers\HashedTokenProvider;
+use Ntavelis\Mercure\Providers\PublisherTokenProvider;
 use Ntavelis\Mercure\Publisher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\Psr18Client;
@@ -172,7 +172,7 @@ class PublishController extends AbstractController
 
         $publisher = new Publisher(
             'http://localhost:3000/hub',
-            new HashedTokenProvider('aVerySecretKey'),
+            new PublisherTokenProvider('aVerySecretKey'),
             new Psr18Client()
         );
 
