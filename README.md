@@ -134,7 +134,7 @@ Note: We used a wildcard for the id, so we will receive a notification for books
 The above example uses native js code, without any library. Please check the [EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) documentation for more information. 
 
 ## Private messages
-Unlike public messages, private messages are not meant to be consumed from everybody. Private messages are messages that are meant to be consumed from a specific list of targets. For example you can publish messages for a specific user, or a lsit of users. Another example would be to publish messages for the admin role, so every user that is admin would receive them on the client and act upon them.
+Unlike public messages, private messages are not meant to be consumed from everybody. Private messages are messages that are meant to be consumed from a specific list of targets. For example you can publish messages for a specific user, or a list of users. Another example would be to publish messages for the admin role, so every user that is admin would receive them on the client and act upon them.
 
 To publish and consume private messages we need 3 things:
 1. To publish a private notification from our php server code.
