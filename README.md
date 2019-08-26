@@ -166,7 +166,7 @@ class PublishController extends AbstractController
     {
         $notification = new PrivateNotification(
             ['http://localhost/books/155'],
-            ['data' => 'new public event'],
+            ['data' => 'new private event'],
             ['ntavelis']
         );
 
