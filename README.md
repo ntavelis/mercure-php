@@ -9,7 +9,7 @@
 
 This package publishes notifications to the mercure hub from your php application. This messages can be later consumed from the clients(web-browsers or mobile apps) to provide real-time updates to your application. All of this is possible due to the Mercure protocol, you can read more about the protocol [here](https://github.com/dunglas/mercure/blob/master/spec/mercure.md).
 
-Shoutout to [dunglas](https://github.com/dunglas) and his work in the [mercure project](https://github.com/dunglas/mercure/blob/master/spec/mercure.md).
+Shoutout to [dunglas](https://github.com/dunglas) for his work in the [mercure project](https://github.com/dunglas/mercure/blob/master/spec/mercure.md).
 
 ## Install
 
