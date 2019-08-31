@@ -6,6 +6,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+## [0.1.1] - 2019-08-31
+
 ### Fixed
 - Publisher token provider test name
 - Updated readme
