@@ -21,7 +21,7 @@ $ composer require ntavelis/mercure-php
 
 ## Mercure Hub installation
 
-This a a binary written in GO lang which should be up and running, in order to accept the messages from the php application.
+The mercure hub which is a binary written in GO lang which should be up and running, in order to accept the messages from the php application.
 
 We suggest to install it locally by using the official docker image:
 
