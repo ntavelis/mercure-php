@@ -8,7 +8,7 @@ use Ntavelis\Mercure\Messages\Notification;
 use Ntavelis\Mercure\Providers\PublisherTokenProvider;
 use PHPUnit\Framework\TestCase;
 
-class HashTokenProviderTest extends TestCase
+class PublisherTokenProviderTest extends TestCase
 {
     /** @test */
     public function itCanReturnTheHashedToken(): void
