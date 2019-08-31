@@ -229,7 +229,7 @@ Note: To authorize the request is up to you, you should check that the request i
 
 ### Obtain the token in the client and subscribe to events using that token (Step 3)
 
-Final step that puts it all together, from our client-side code we obtain the token and we subscribe to the evetns from the hub using this token.
+Final step that puts it all together, from our client-side code we obtain the token and we subscribe to the events from the hub using this token.
 
 Note: we are gonna use a polyfill library in this example to pass the authorization header to the hub, because it is not natively supported from the EventSource.
 
