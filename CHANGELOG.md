@@ -6,6 +6,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+## [0.1.2] - 2019-09-01
+
+### Fixed
+- Added docker folder to export-ignore
+
 ## [0.1.1] - 2019-08-31
 
 ### Fixed
