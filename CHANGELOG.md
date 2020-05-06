@@ -6,6 +6,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+## [0.2.5] - 2020-05-06
+
+### Added
+- Added functional tests to the github actions
+
+### Changed
+- Readme modifications
+
 ## [0.2.4] - 2020-05-06
 
 ### Changed
