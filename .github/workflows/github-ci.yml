@@ -48,6 +48,7 @@ jobs:
 #                    DEMO: 1
         steps:
             -   uses: actions/checkout@v1
+            -   run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
             -   run: composer install --no-ansi --no-progress
             -   run: ./vendor/bin/phpunit --testsuite functional-tests
     PSR12_code_style:
