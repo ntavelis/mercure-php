@@ -33,7 +33,10 @@ jobs:
             -   run: ./vendor/bin/phpunit --testsuite unit-tests
     functional_tests_php72:
         name: Functional tests PHP 7.2
-        runs-on: php:7.2
+        # Containers must run in Linux based operating systems
+        runs-on: ubuntu-latest
+        # Docker Hub image that `container-job` executes in
+        container: php:7.2
         services:
             mercure:
                 image: dunglas/mercure
