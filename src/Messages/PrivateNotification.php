@@ -8,7 +8,6 @@ use Ntavelis\Mercure\Contracts\NotificationInterface;
 
 class PrivateNotification implements NotificationInterface
 {
-
     /**
      * @var array
      */
