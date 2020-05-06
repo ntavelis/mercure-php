@@ -36,7 +36,7 @@ jobs:
         # Containers must run in Linux based operating systems
         runs-on: ubuntu-latest
         # Docker Hub image that `container-job` executes in
-        container: php:7.2Z
+        container: php:7.2
         services:
             mercure:
                 image: dunglas/mercure
