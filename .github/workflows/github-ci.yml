@@ -31,6 +31,19 @@ jobs:
             -   uses: actions/checkout@v1
             -   run: composer install --no-ansi --no-progress
             -   run: ./vendor/bin/phpunit --testsuite unit-tests
+    functional_tests_php72:
+        name: Functional tests PHP 7.2
+        runs-on: ubuntu-latest
+        services:
+            mercure:
+                image: dunglas/mercure
+                ports:
+                    - 3000:80
+        steps:
+            -   uses: docker://php:7.2
+            -   uses: actions/checkout@v1
+            -   run: composer install --no-ansi --no-progress
+            -   run: ./vendor/bin/phpunit --testsuite functional-tests
     PSR12_code_style:
         name: PSR 12 Codestyle checks
         runs-on: ubuntu-latest
