@@ -39,12 +39,12 @@ jobs:
                 image: dunglas/mercure
                 ports:
                     - 3000:80
-                env:
-                    JWT_KEY: aVerySecretKey
-                    ALLOW_ANONYMOUS: 1
-                    CORS_ALLOWED_ORIGINS: *
-                    PUBLISH_ALLOWED_ORIGINS: http://localhost
-                    DEMO: 1
+#                env:
+#                    JWT_KEY: aVerySecretKey
+#                    ALLOW_ANONYMOUS: 1
+#                    CORS_ALLOWED_ORIGINS: *
+#                    PUBLISH_ALLOWED_ORIGINS: http://localhost
+#                    DEMO: 1
         steps:
             -   uses: docker://php:7.2
             -   uses: actions/checkout@v1

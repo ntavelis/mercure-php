@@ -21,7 +21,7 @@ class PublisherTest extends TestCase
 
         $psr18Client = new Psr18Client();
         $publisher = new Publisher(
-            'http://mercure:80/.well-known/mercure',
+            'http://localhost:3000/.well-known/mercure',
             new PublisherTokenProvider('aVerySecretKey'),
             $psr18Client
         );
@@ -42,7 +42,7 @@ class PublisherTest extends TestCase
 
         $psr18Client = new Psr18Client();
         $publisher = new Publisher(
-            'http://mercure:80/.well-known/mercure',
+            'http://localhost:3000/.well-known/mercure',
             new PublisherTokenProvider('aVerySecretKey'),
             $psr18Client
         );
@@ -65,7 +65,7 @@ class PublisherTest extends TestCase
 
         $psr18Client = new Psr18Client();
         $publisher = new Publisher(
-            'http://mercure:80/.well-known/mercure',
+            'http://localhost:3000/.well-known/mercure',
             new PublisherTokenProvider('wrong_key'),
             $psr18Client
         );
