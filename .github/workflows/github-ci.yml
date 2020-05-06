@@ -1,0 +1,49 @@
+name: CI
+on: [push]
+
+jobs:
+    unit_tests_php72:
+        name: Unit tests PHP 7.2
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: docker://php:7.2
+            -   uses: actions/checkout@v1
+            -   run: composer install --no-ansi --no-progress
+            -   run: ./vendor/bin/phpunit --coverage-clover=build/coverage.xml --testsuite unit-tests
+            -   uses: codecov/codecov-action@v1
+                with:
+                    file: ./build/coverage.xml
+                    token: ${{secrets.CODECOV_TOKEN}}
+                    flags: unittests
+    unit_tests_php73:
+        name: Unit tests PHP 7.3
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: docker://php:7.3
+            -   uses: actions/checkout@v1
+            -   run: composer install --no-ansi --no-progress
+            -   run: ./vendor/bin/phpunit --testsuite unit-tests
+    unit_tests_php74:
+        name: Unit tests PHP 7.4
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: docker://php:7.4
+            -   uses: actions/checkout@v1
+            -   run: composer install --no-ansi --no-progress
+            -   run: ./vendor/bin/phpunit --testsuite unit-tests
+    PSR12_code_style:
+        name: PSR 12 Codestyle checks
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: docker://php:7.2
+            -   uses: actions/checkout@v1
+            -   run: composer install --no-ansi --no-progress
+            -   run: ./vendor/bin/phpcs --standard=PSR12 src
+    Static_analysis:
+        name: Static analysis checks
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: docker://php:7.2
+            -   uses: actions/checkout@v1
+            -   run: composer install --no-ansi --no-progress
+            -   run: vendor/bin/phpstan analyse -l 6 src tests

@@ -45,7 +45,7 @@ class PublisherTest extends TestCase
     }
 
     /** @test */
-    public function ifWeGetAStatusNotEqualTo200WeThrowAnException()
+    public function ifWeGetAStatusNotEqualTo200WeThrowAnException(): void
     {
         $this->expectException(UnableToSendNotificationException::class);
         $this->expectExceptionMessage("Unauthorized\n");

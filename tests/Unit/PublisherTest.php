@@ -72,7 +72,7 @@ class PublisherTest extends TestCase
     }
 
     /** @test */
-    public function ifWeGetAResponseWithStatusOtherThan200WeThrowAnException()
+    public function ifWeGetAResponseWithStatusOtherThan200WeThrowAnException(): void
     {
         $this->expectException(UnableToSendNotificationException::class);
         $notification = new Notification(['topic'], ['data']);

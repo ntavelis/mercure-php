@@ -6,6 +6,15 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+## [0.2.0] - 2020-05-06
+
+### Added
+- Switched to github actions
+- Added static analysis (phpstan)
+
+### Fixed
+- Phpstan violations
+
 ## [0.1.2] - 2019-09-01
 
 ### Fixed

@@ -2,9 +2,8 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
+![CI](https://github.com/ntavelis/mercure-php/workflows/CI/badge.svg)
+[![codecov](https://codecov.io/gh/ntavelis/mercure-php/branch/master/graph/badge.svg)](https://codecov.io/gh/ntavelis/dockposer)
 [![Total Downloads][ico-downloads]][link-downloads]
 
 This package publishes notifications to the mercure hub from your php application. These messages can be later consumed from the clients(web-browsers or mobile apps) to provide real-time updates to your application. All of this is possible due to the Mercure protocol, you can read more about the protocol [here](https://github.com/dunglas/mercure/blob/master/spec/mercure.md).
