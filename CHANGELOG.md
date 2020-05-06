@@ -6,6 +6,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+## [0.2.3] - 2020-05-06
+
+### Added
+- Add files to export-ignore
+
 ## [0.2.2] - 2020-05-06
 
 ### Added
