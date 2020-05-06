@@ -43,8 +43,6 @@ services:
             - JWT_KEY=aVerySecretKey
         ports:
             - 3000:80
-        labels:
-            - traefik.frontend.rule=Host:localhost
 ``` 
 
 Alternatively you can download and run the executable, choose the correct executable for your operating system from [here](https://github.com/dunglas/mercure/releases) and run:
