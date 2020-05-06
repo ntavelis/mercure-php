@@ -6,6 +6,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+## [0.2.1] - 2020-05-06
+
+### Added
+- Added .github folder as export-ignore
+
 ## [0.2.0] - 2020-05-06
 
 ### Added
