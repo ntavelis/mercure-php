@@ -33,12 +33,10 @@ jobs:
             -   run: ./vendor/bin/phpunit --testsuite unit-tests
     functional_tests_php72:
         name: Functional tests PHP 7.2
-        runs-on: ubuntu-latest
+        runs-on: php:7.2
         services:
             mercure:
                 image: dunglas/mercure
-                ports:
-                    - 3000:80
 #                env:
 #                    JWT_KEY: aVerySecretKey
 #                    ALLOW_ANONYMOUS: 1
@@ -46,7 +44,6 @@ jobs:
 #                    PUBLISH_ALLOWED_ORIGINS: http://localhost
 #                    DEMO: 1
         steps:
-            -   uses: docker://php:7.2
             -   uses: actions/checkout@v1
             -   run: composer install --no-ansi --no-progress
             -   run: ./vendor/bin/phpunit --testsuite functional-tests
