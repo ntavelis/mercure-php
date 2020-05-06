@@ -26,7 +26,7 @@ We suggest to install it locally by using the official docker image:
 
 ``` bash
 docker run \
-    -e JWT_KEY='aVerySecretKey' -e DEMO=1 -e ALLOW_ANONYMOUS=1 -e PUBLISH_ALLOWED_ORIGINS='http://localhost' \
+    -e JWT_KEY='aVerySecretKey' -e ALLOW_ANONYMOUS=1 -e CORS_ALLOWED_ORIGINS=*\
     -p 3000:80 \
     dunglas/mercure
 ``` 
@@ -43,12 +43,8 @@ services:
             - JWT_KEY=aVerySecretKey
             - ALLOW_ANONYMOUS=1
             - CORS_ALLOWED_ORIGINS=*
-            - PUBLISH_ALLOWED_ORIGINS=http://localhost
-            - DEMO=1
         ports:
             - 3000:80
-        labels:
-            - traefik.frontend.rule=Host:localhost
 ``` 
 
 Alternatively you can download and run the executable, choose the correct executable for your operating system from [here](https://github.com/dunglas/mercure/releases) and run:
