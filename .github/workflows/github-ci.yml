@@ -50,7 +50,7 @@ jobs:
             -   uses: docker://php:7.2
             -   uses: actions/checkout@v1
             -   run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-            -   run: apt update && apt install git
+            -   run: apt update && apt install git -y
             -   run: composer install --no-ansi --no-progress
             -   run: ./vendor/bin/phpunit --testsuite functional-tests
     PSR12_code_style:
