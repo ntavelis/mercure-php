@@ -57,6 +57,8 @@ Alternatively you can download and run the executable, choose the correct execut
 JWT_KEY='aVerySecretKey' ADDR=':3000' DEMO=1 ALLOW_ANONYMOUS=1 CORS_ALLOWED_ORIGINS=* PUBLISH_ALLOWED_ORIGINS='http://localhost:3000' ./mercure
 ``` 
  
+Tip: Hit the homepage of the mercure hub for information on how to connect to the hub.
+ 
 ## Sending a public notification
 
 We need to publish messages from our php server to the mercure hub and then consume them in our client, in this example in a browser via javascript.
@@ -87,7 +89,7 @@ class PublishController extends AbstractController
         $notification = new Notification(['http://localhost/books/2'], ['data' => 'new public event']);
 
         $publisher = new Publisher(
-            'http://localhost:3000/hub',
+            'http://localhost:3000/.well-known/mercure',
             new PublisherTokenProvider('aVerySecretKey'),
             new Psr18Client()
         );
@@ -117,7 +119,7 @@ In order to consume the above public message, our client side code will look lik
 
 ```javascript
 // The subscriber subscribes to updates for any topic matching http://localhost/books/{id}
-const url = new window.URL('http://localhost:3000/hub');
+const url = new window.URL('http://localhost:3000/.well-known/mercure');
 url.searchParams.append('topic', 'http://localhost/books/{id}');
 
 const eventSource = new EventSource(url.toString());
@@ -170,7 +172,7 @@ class PublishController extends AbstractController
         );
 
         $publisher = new Publisher(
-            'http://localhost:3000/hub',
+            'http://localhost:3000/.well-known/mercure',
             new PublisherTokenProvider('aVerySecretKey'),
             new Psr18Client()
         );
@@ -248,7 +250,7 @@ const token = fetch('/subscribe', {
 
 // When we have the token subscribe to the EventSource by passing the toke
 token.then((token) => {
-    const url = new window.URL('http://localhost:3000/hub');
+    const url = new window.URL('http://localhost:3000/.well-known/mercure');
     url.searchParams.append('topic', 'http://localhost/books/155');
     // Authorization header
     const eventSourceInitDict = {
