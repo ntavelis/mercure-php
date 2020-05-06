@@ -8,7 +8,13 @@ use Ntavelis\Mercure\Contracts\NotificationInterface;
 
 class Notification implements NotificationInterface
 {
+    /**
+     * @var array
+     */
     private $topics;
+    /**
+     * @var array
+     */
     private $data;
 
     public function __construct(array $topics, array $data)
