@@ -5,3 +5,4 @@ phpcs.xml
 phpunit.xml
 /.phpunit.result.cache
 /coverage.clover
+composer.lock
