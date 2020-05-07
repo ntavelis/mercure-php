@@ -18,7 +18,7 @@ class QueryBuilder
         return $this->buildQueryString($this->message->jsonSerialize());
     }
 
-    private function buildQueryString(array $data, string $keyToUse = null): string
+    private function buildQueryString(array $data, ?string $keyToUse = null): string
     {
         $queryParameters = [];
         foreach ($data as $key => $value) {
