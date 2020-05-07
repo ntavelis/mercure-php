@@ -1,10 +1,13 @@
 # Changelog
 
-All notable changes to `mercure-php` will be documented in this file.
+All notable changes to `ntavelis/mercure-php` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
 ## [Unreleased]
+
+### Changed
+- Changed typehint to nullable string \Ntavelis\Mercure\QueryBuilder::buildQueryString
 
 ## [0.2.5] - 2020-05-06
 
