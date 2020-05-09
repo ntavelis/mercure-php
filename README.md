@@ -262,12 +262,6 @@ Keep in mind that you can also use cookie based authentication to connect to the
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-## Testing
-
-``` bash
-$ composer unit-tests
-```
-
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) for details.
