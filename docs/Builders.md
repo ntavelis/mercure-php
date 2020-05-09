@@ -2,7 +2,7 @@
 
 We can also use the builder classes to build the notification objects and the publisher with a fluent API.
 
-The below examples achieve the same result as in publishing public and private messages. 
+The below examples achieve the same result.
 
 ### Public notification example using the fluent API
 
