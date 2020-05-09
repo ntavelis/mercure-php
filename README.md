@@ -67,9 +67,8 @@ The below example is a controller, in symfony framework:
 
 namespace App\Controller;
 
-use Ntavelis\Mercure\Messages\Notification;
-use Ntavelis\Mercure\Providers\PublisherTokenProvider;
-use Ntavelis\Mercure\Publisher;
+use Ntavelis\Mercure\Builder\NotificationBuilder;
+use Ntavelis\Mercure\Builder\PublisherBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -82,13 +81,17 @@ class PublishController extends AbstractController
      */
     public function index()
     {
-        $notification = new Notification(['http://localhost/books/2'], ['data' => 'new public event']);
-
-        $publisher = new Publisher(
-            'http://localhost:3000/.well-known/mercure',
-            new PublisherTokenProvider('aVerySecretKey'),
-            new Psr18Client()
-        );
+        $publisher = (new PublisherBuilder())
+                    ->mercureHubUrl('http://mercure/.well-known/mercure')
+                    ->key('aVerySecretKey')
+                    ->psr18Client(new Psr18Client())
+                    ->get();
+        
+        $notification = (new NotificationBuilder())
+            ->topic('http://localhost/books/2')
+//            ->topic('anotherTopic')
+            ->withData(['data' => 'new public event'])
+            ->inPublic();
 
         $publisher->send($notification);
 
@@ -101,13 +104,6 @@ Note: We need to initialize the publisher and pass him a PSR-18 compliant client
 ```bash
 composer require symfony/http-client
 ```
-
-#### Notification class
-The first argument of the `Ntavelis\Mercure\Messages\Notification` is an array of topics, you want to publish a notification for. The topics can be any string that makes sense for you, e.g. 'orders', 'clients', 'notes', 'http://localhost/books/2' etc.
-The second argument is the array of data you want to pass to your client, this array will be json encoded and it will be received from the clients, which can then act upon that received data.  
-
-#### Publisher class
-This is the class that it actually sends the notification to the mercure hub, it expects 3 arguments upon instantiation. The mercure hub url, a class that implements the `Ntavelis\Mercure\Contracts\TokenProviderInterface` (you can use the one from the package or provide your own) and lastly as mentioned above an instance of a PSR-18 compatible client.
 
 ### Client-side Javascript code
 
@@ -146,9 +142,8 @@ From our php server code, we now have to use the `Ntavelis\Mercure\Messages\Priv
 
 namespace App\Controller;
 
-use Ntavelis\Mercure\Messages\PrivateNotification;
-use Ntavelis\Mercure\Providers\PublisherTokenProvider;
-use Ntavelis\Mercure\Publisher;
+use Ntavelis\Mercure\Builder\NotificationBuilder;
+use Ntavelis\Mercure\Builder\PublisherBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -161,17 +156,18 @@ class PublishController extends AbstractController
      */
     public function index()
     {
-        $notification = new PrivateNotification(
-            ['http://localhost/books/155'],
-            ['data' => 'new private event'],
-            ['ntavelis']
-        );
-
-        $publisher = new Publisher(
-            'http://localhost:3000/.well-known/mercure',
-            new PublisherTokenProvider('aVerySecretKey'),
-            new Psr18Client()
-        );
+        $publisher = (new PublisherBuilder())
+                    ->mercureHubUrl('http://mercure/.well-known/mercure')
+                    ->key('aVerySecretKey')
+                    ->psr18Client(new Psr18Client())
+                    ->get();
+        
+        $notification = (new NotificationBuilder())
+            ->topic('http://localhost/books/155')
+//            ->topic('anotherTopic')
+            ->withData(['data' => 'new private event'])
+            ->inPrivateTo('ntavelis');
+//            ->inPrivateTo('ntavelis', 'anotherUser'); // we can pass as many targets we want
 
         $publisher->send($notification);
 
