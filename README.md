@@ -102,7 +102,7 @@ Note: When we initialize the publisher we need to pass a PSR-18 compliant client
 composer require symfony/http-client
 ```
 
-Tip: Instead of manually building the classes, you can achieve the same result by using the fluent API. [Fluent API](docs/Builders.md)
+Tip: Instead of manually building the classes, you can achieve the same result by using the [fluent API](docs/Builders.md).
 
 #### Notification class
 The first argument of the Ntavelis\Mercure\Messages\Notification is an array of topics, you want to publish a notification for. The topics can be any string that makes sense for you, e.g. 'orders', 'clients', 'notes', 'http://localhost/books/2' etc. The second argument is the array of data you want to pass to your client, this array will be json encoded and it will be received from the clients, which can then act upon that received data.
@@ -183,7 +183,7 @@ class PublishController extends AbstractController
 
 That's it, we published a private message that is meant only for the user `ntavelis` and is related to the topic `http://localhost/books/155`. Perhaps he is the author of the book in our app and we would like to send a client notification to update his private dashboard.
 
-Tip: Instead of manually building the classes, you can achieve the same result by using the fluent API. [Fluent API](docs/Builders.md)
+Tip: Instead of manually building the classes, you can achieve the same result by using the [fluent API](docs/Builders.md).
 ### Provide the endpoint that will generate the token for the client (Step 2)
 
 To consume the messages in our javascript, we need to provide a valid token when we subscribe to the hub to prove that we are the user `ntavelis` this private notification is meant for. To do this we can make an ajax request to a php endpoint to receive the token.
