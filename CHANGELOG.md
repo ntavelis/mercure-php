@@ -6,6 +6,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+## [0.3.2] - 2020-05-09
+
+### Changed
+- Changed .gitattributes file, to correctly reflect new code
+
 ## [0.3.1] - 2020-05-09
 
 ### Added
