@@ -82,7 +82,7 @@ class PublishController extends AbstractController
     public function index()
     {
         $publisher = (new PublisherBuilder())
-            ->mercureHubUrl('http://mercure/.well-known/mercure')
+            ->mercureHubUrl('http://localhost:3000/.well-known/mercure')
             ->key('aVerySecretKey')
             ->psr18Client(new Psr18Client())
             ->get();
@@ -100,7 +100,7 @@ class PublishController extends AbstractController
 }
 ``` 
 
-Note: We need to initialize the publisher and pass him a PSR-18 compliant client, in our example we use the symfony/http-client. This package does not provide a client you need to initialize and pass one to the publisher yourself. e.g. To provide the symfony http-client you need to install it first via composer: 
+Note: When we initialize the publisher we need to pass a PSR-18 compliant client, in our example we use the symfony/http-client. This package does not provide a client you need to initialize and pass one to the publisher yourself. e.g. To provide the symfony http-client you need to install it first via composer: 
 ```bash
 composer require symfony/http-client
 ```
@@ -157,7 +157,7 @@ class PublishController extends AbstractController
     public function index()
     {
         $publisher = (new PublisherBuilder())
-            ->mercureHubUrl('http://mercure/.well-known/mercure')
+            ->mercureHubUrl('http://localhost:3000/.well-known/mercure')
             ->key('aVerySecretKey')
             ->psr18Client(new Psr18Client())
             ->get();
