@@ -82,10 +82,10 @@ class PublishController extends AbstractController
     public function index()
     {
         $publisher = (new PublisherBuilder())
-                    ->mercureHubUrl('http://mercure/.well-known/mercure')
-                    ->key('aVerySecretKey')
-                    ->psr18Client(new Psr18Client())
-                    ->get();
+            ->mercureHubUrl('http://mercure/.well-known/mercure')
+            ->key('aVerySecretKey')
+            ->psr18Client(new Psr18Client())
+            ->get();
         
         $notification = (new NotificationBuilder())
             ->topic('http://localhost/books/2')
@@ -157,10 +157,10 @@ class PublishController extends AbstractController
     public function index()
     {
         $publisher = (new PublisherBuilder())
-                    ->mercureHubUrl('http://mercure/.well-known/mercure')
-                    ->key('aVerySecretKey')
-                    ->psr18Client(new Psr18Client())
-                    ->get();
+            ->mercureHubUrl('http://mercure/.well-known/mercure')
+            ->key('aVerySecretKey')
+            ->psr18Client(new Psr18Client())
+            ->get();
         
         $notification = (new NotificationBuilder())
             ->topic('http://localhost/books/155')
