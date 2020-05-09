@@ -67,8 +67,9 @@ The below example is a controller, in symfony framework:
 
 namespace App\Controller;
 
-use Ntavelis\Mercure\Builder\NotificationBuilder;
-use Ntavelis\Mercure\Builder\PublisherBuilder;
+use Ntavelis\Mercure\Messages\Notification;
+use Ntavelis\Mercure\Providers\PublisherTokenProvider;
+use Ntavelis\Mercure\Publisher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -81,17 +82,13 @@ class PublishController extends AbstractController
      */
     public function index()
     {
-        $publisher = (new PublisherBuilder())
-            ->mercureHubUrl('http://localhost:3000/.well-known/mercure')
-            ->key('aVerySecretKey')
-            ->psr18Client(new Psr18Client())
-            ->get();
+        $notification = new Notification(['http://localhost/books/2'], ['data' => 'new public event']);
         
-        $notification = (new NotificationBuilder())
-            ->topic('http://localhost/books/2')
-//            ->topic('anotherTopic')
-            ->withData(['data' => 'new public event'])
-            ->inPublic();
+        $publisher = new Publisher(
+            'http://localhost:3000/.well-known/mercure',
+            new PublisherTokenProvider('aVerySecretKey'),
+            new Psr18Client()
+        );
 
         $publisher->send($notification);
 
@@ -104,6 +101,14 @@ Note: When we initialize the publisher we need to pass a PSR-18 compliant client
 ```bash
 composer require symfony/http-client
 ```
+
+Tip: Instead of manually building the classes, you can achieve the same result by using the fluent API. [Fluent API](docs/Builders.md)
+
+#### Notification class
+The first argument of the Ntavelis\Mercure\Messages\Notification is an array of topics, you want to publish a notification for. The topics can be any string that makes sense for you, e.g. 'orders', 'clients', 'notes', 'http://localhost/books/2' etc. The second argument is the array of data you want to pass to your client, this array will be json encoded and it will be received from the clients, which can then act upon that received data.
+
+#### Publisher class
+This is the class that it actually sends the notification to the mercure hub, it expects 3 arguments upon instantiation. The mercure hub url, a class that implements the Ntavelis\Mercure\Contracts\TokenProviderInterface (you can use the one from the package or provide your own) and lastly as mentioned above an instance of a PSR-18 compatible client.
 
 ### Client-side Javascript code
 
@@ -142,8 +147,9 @@ From our php server code, we now have to use the `Ntavelis\Mercure\Messages\Priv
 
 namespace App\Controller;
 
-use Ntavelis\Mercure\Builder\NotificationBuilder;
-use Ntavelis\Mercure\Builder\PublisherBuilder;
+use Ntavelis\Mercure\Messages\PrivateNotification;
+use Ntavelis\Mercure\Providers\PublisherTokenProvider;
+use Ntavelis\Mercure\Publisher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -156,18 +162,17 @@ class PublishController extends AbstractController
      */
     public function index()
     {
-        $publisher = (new PublisherBuilder())
-            ->mercureHubUrl('http://localhost:3000/.well-known/mercure')
-            ->key('aVerySecretKey')
-            ->psr18Client(new Psr18Client())
-            ->get();
-        
-        $notification = (new NotificationBuilder())
-            ->topic('http://localhost/books/155')
-//            ->topic('anotherTopic')
-            ->withData(['data' => 'new private event'])
-            ->inPrivateTo('ntavelis');
-//            ->inPrivateTo('ntavelis', 'anotherUser'); // we can pass as many targets we want
+        $notification = new PrivateNotification(
+            ['http://localhost/books/155'],
+            ['data' => 'new private event'],
+            ['ntavelis']
+        );
+
+        $publisher = new Publisher(
+            'http://localhost:3000/.well-known/mercure',
+            new PublisherTokenProvider('aVerySecretKey'),
+            new Psr18Client()
+        );
 
         $publisher->send($notification);
 
@@ -178,6 +183,7 @@ class PublishController extends AbstractController
 
 That's it, we published a private message that is meant only for the user `ntavelis` and is related to the topic `http://localhost/books/155`. Perhaps he is the author of the book in our app and we would like to send a client notification to update his private dashboard.
 
+Tip: Instead of manually building the classes, you can achieve the same result by using the fluent API. [Fluent API](docs/Builders.md)
 ### Provide the endpoint that will generate the token for the client (Step 2)
 
 To consume the messages in our javascript, we need to provide a valid token when we subscribe to the hub to prove that we are the user `ntavelis` this private notification is meant for. To do this we can make an ajax request to a php endpoint to receive the token.
@@ -282,14 +288,11 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-version]: https://img.shields.io/packagist/v/ntavelis/mercure-php.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/ntavelis/mercure-php/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/ntavelis/mercure-php.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/ntavelis/mercure-php.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/ntavelis/mercure-php.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/ntavelis/mercure-php
 [link-travis]: https://travis-ci.org/ntavelis/mercure-php
-[link-scrutinizer]: https://scrutinizer-ci.com/g/ntavelis/mercure-php/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/ntavelis/mercure-php
 [link-downloads]: https://packagist.org/packages/ntavelis/mercure-php
 [link-author]: https://github.com/ntavelis
 [link-contributors]: ../../contributors

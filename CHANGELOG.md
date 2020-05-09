@@ -6,6 +6,13 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+### Added
+- Added builders documentation
+
+### Changed
+
+- Updated the README.md
+
 ## [0.3.0] - 2020-05-09
 
 ### Changed
