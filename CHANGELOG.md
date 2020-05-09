@@ -6,8 +6,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+## [0.3.0] - 2020-05-09
+
 ### Changed
 - Changed typehint to nullable string \Ntavelis\Mercure\QueryBuilder::buildQueryString
+
+### Added
+- Added builder for publisher
+- Added builder for notification messages (public, private)
 
 ## [0.2.5] - 2020-05-06
 
