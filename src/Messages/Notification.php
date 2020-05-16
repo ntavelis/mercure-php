@@ -30,7 +30,7 @@ class Notification implements NotificationInterface
         return $this->data;
     }
 
-    public function withConfig(ConfigStamp $configStamp)
+    public function withConfig(ConfigStamp $configStamp): void
     {
         $this->configStamp = $configStamp;
     }
