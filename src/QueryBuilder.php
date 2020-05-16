@@ -4,18 +4,20 @@ declare(strict_types=1);
 
 namespace Ntavelis\Mercure;
 
+use Ntavelis\Mercure\Contracts\NotificationInterface;
+
 class QueryBuilder
 {
     private $message;
 
-    public function __construct(\JsonSerializable $message)
+    public function __construct(NotificationInterface $message)
     {
         $this->message = $message;
     }
 
     public function __toString(): string
     {
-        return $this->buildQueryString($this->message->jsonSerialize());
+        return $this->buildQueryString($this->message->toArray());
     }
 
     private function buildQueryString(array $data, ?string $keyToUse = null): string
@@ -27,7 +29,7 @@ class QueryBuilder
                 continue;
             }
             if ($value !== null) {
-                $queryParameters[] = $this->urlEncodeKeyValue($keyToUse ?? $key, $value);
+                $queryParameters[] = $this->urlEncodeKeyValue($keyToUse ?? $key, (string)$value);
                 continue;
             }
         }

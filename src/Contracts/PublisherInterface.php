@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Ntavelis\Mercure\Contracts;
 
+use Ntavelis\Mercure\Exceptions\UnableToSendNotificationException;
+
 interface PublisherInterface
 {
     /**
-     * Publishes a notification to the mercure hub and returns the published message's uuid
-     *
-     * @param NotificationInterface $notification
-     * @return string
+     * @throws UnableToSendNotificationException
      */
     public function send(NotificationInterface $notification): string;
 }

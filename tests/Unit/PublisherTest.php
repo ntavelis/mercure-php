@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ntavelis\Mercure\Tests\Unit;
 
+use Ntavelis\Mercure\Config\ConfigStamp;
 use Ntavelis\Mercure\Exceptions\UnableToSendNotificationException;
 use Ntavelis\Mercure\Messages\Notification;
 use Ntavelis\Mercure\Messages\PrivateNotification;
@@ -82,6 +83,25 @@ class PublisherTest extends TestCase
             ->expects($this->once())
             ->method('sendRequest')
             ->willReturn(new Response(401, [], Stream::create("Unauthorized\n")));
+        $publisher = new Publisher(
+            'http://hub-url.com',
+            new PublisherTokenProvider('token'),
+            $client
+        );
+
+        $publisher->send($notification);
+    }
+
+    /** @test */
+    public function ifTheMessageContainsConfigValuesTheyWillBeSendToTheHub(): void
+    {
+        $notification = new Notification(['topic'], ['data']);
+        $configStamp = new ConfigStamp('invoice', '1234', 30);
+        $notification->withConfig($configStamp);
+
+        $client = $this->createMock(ClientInterface::class);
+        $client->expects($this->once())->method('sendRequest')
+            ->willReturn(new Response(200, [], Stream::create('1b6bcc96-c54e-4776-884c-5812c9ea8a71')));
         $publisher = new Publisher(
             'http://hub-url.com',
             new PublisherTokenProvider('token'),
