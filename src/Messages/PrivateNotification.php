@@ -37,6 +37,11 @@ class PrivateNotification implements NotificationInterface
         return $this->targets;
     }
 
+    public function getConfigStamp(): ConfigStamp
+    {
+        return $this->configStamp;
+    }
+
     public function withConfig(ConfigStamp $configStamp): void
     {
         $this->configStamp = $configStamp;

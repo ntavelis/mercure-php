@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ntavelis\Mercure\Builder;
 
+use Ntavelis\Mercure\Config\ConfigStamp;
 use Ntavelis\Mercure\Messages\Notification;
 use Ntavelis\Mercure\Messages\PrivateNotification;
 
@@ -17,6 +18,10 @@ class NotificationBuilder
      * @var array
      */
     private $data;
+    /**
+     * @var ConfigStamp
+     */
+    private $configStamp;
 
     public function topic(string $topic): NotificationBuilder
     {
@@ -32,13 +37,32 @@ class NotificationBuilder
         return $this;
     }
 
+    public function withConfig(ConfigStamp $configStamp): NotificationBuilder
+    {
+        $this->configStamp = $configStamp;
+
+        return $this;
+    }
+
     public function inPublic(): Notification
     {
-        return new Notification($this->topics, $this->data);
+        $notification = new Notification($this->topics, $this->data);
+
+        if (isset($this->configStamp)) {
+            $notification->withConfig($this->configStamp);
+        }
+
+        return $notification;
     }
 
     public function inPrivateTo(string ...$targets): PrivateNotification
     {
-        return new PrivateNotification($this->topics, $this->data, $targets);
+        $privateNotification = new PrivateNotification($this->topics, $this->data, $targets);
+
+        if (isset($this->configStamp)) {
+            $privateNotification->withConfig($this->configStamp);
+        }
+
+        return $privateNotification;
     }
 }

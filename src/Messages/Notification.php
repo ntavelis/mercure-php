@@ -35,6 +35,11 @@ class Notification implements NotificationInterface
         $this->configStamp = $configStamp;
     }
 
+    public function getConfigStamp(): ConfigStamp
+    {
+        return $this->configStamp;
+    }
+
     public function getTokenData(): array
     {
         return $this->getTopics();
