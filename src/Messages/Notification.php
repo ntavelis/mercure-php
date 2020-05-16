@@ -32,10 +32,7 @@ class Notification implements NotificationInterface
         return $this->getTopics();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function jsonSerialize(): array
+    public function toArray(): array
     {
         return [
             'topic' => $this->getTopics(),

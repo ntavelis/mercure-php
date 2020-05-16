@@ -28,6 +28,6 @@ class PrivateNotificationTest extends TestCase
             'topic' => ['topics'],
             'data' => '["data"]',
             'target' => ['ntavelis'],
-        ], $privateNotification->jsonSerialize());
+        ], $privateNotification->toArray());
     }
 }

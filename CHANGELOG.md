@@ -6,6 +6,10 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+### Changed
+- Changed the NotificationInterface no longer extends jsonSerializable, instead it exposes a toArray method
+- Interface docblock, now it contains proper exception in docblock 
+
 ## [0.3.2] - 2020-05-09
 
 ### Changed

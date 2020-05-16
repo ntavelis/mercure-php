@@ -26,6 +26,6 @@ class NotificationTest extends TestCase
         $this->assertSame([
             'topic' => ['topics'],
             'data' => '["data-that-will-get-json-encoded"]',
-        ], $notification->jsonSerialize());
+        ], $notification->toArray());
     }
 }

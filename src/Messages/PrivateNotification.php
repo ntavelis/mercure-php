@@ -39,10 +39,7 @@ class PrivateNotification implements NotificationInterface
         return array_merge($this->getTopics(), $this->getTargets());
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function jsonSerialize(): array
+    public function toArray(): array
     {
         return [
             'topic' => $this->getTopics(),
