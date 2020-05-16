@@ -6,9 +6,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased]
 
+### Added
+- Added a ConfigStamp class, that accepts specific config values for the notifications
+- Added the ability to pass the config stamp through the fluent builders
+
 ### Changed
 - Changed the NotificationInterface no longer extends jsonSerializable, instead it exposes a toArray method
 - Interface docblock, now it contains proper exception in docblock 
+- Updated the README.md
 
 ## [0.3.2] - 2020-05-09
 
