@@ -2,7 +2,7 @@
 
 We can optionally specify a type when we create a notification class, by doing this we will publish a notification for a given topic with a specific type. 
 
-This will allow us to differentiate the kind of events we want to respond for a specific topic. For example, we can have for a book topic, events types such as invoice or comment.
+This will allow us to differentiate the kind of events we want to respond for a specific topic. For example, we can have for a book topic for event types such as `invoice` or `comment`.
 
 It is easier to demonstrate with an example:
 
@@ -56,9 +56,9 @@ url.searchParams.append('topic', 'http://localhost/books/2');
 
 const eventSource = new EventSource(url.toString());
 
-// we subscribe to event types 'invoice' for this type
-// we will ignore other types of events
-// notice we do not use the eventSource.onmessage as we did we we did not specify specific type
+// we subscribe to event type 'invoice' for this particular topic
+// we will ignore other type of events
+// notice we do not use the `eventSource.onmessage` as we did we we did not specify specific type
 eventSource.addEventListener('invoice', function(e) {
     console.log(JSON.parse(e.data))
 })
