@@ -29,7 +29,7 @@ class QueryBuilder
                 continue;
             }
             if ($value !== null) {
-                $queryParameters[] = $this->urlEncodeKeyValue($keyToUse ?? $key, $value);
+                $queryParameters[] = $this->urlEncodeKeyValue($keyToUse ?? $key, (string)$value);
                 continue;
             }
         }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ntavelis\Mercure\Tests\Functional;
 
+use Ntavelis\Mercure\Config\ConfigStamp;
 use Ntavelis\Mercure\Exceptions\UnableToSendNotificationException;
 use Ntavelis\Mercure\Messages\Notification;
 use Ntavelis\Mercure\Messages\PrivateNotification;
@@ -71,5 +72,24 @@ class PublisherTest extends TestCase
         );
 
         $publisher->send($notification);
+    }
+
+    /** @test */
+    public function itCanSuccessfullyPublishAPublicMessageWithConfigValues(): void
+    {
+        $notification = new Notification(['http://localhost:3000/demo/books/1.jsonld'], ['key' => 'updated value']);
+        $configStamp = new ConfigStamp('invoice', '1234', 30);
+        $notification->withConfig($configStamp);
+
+        $psr18Client = new Psr18Client();
+        $publisher = new Publisher(
+            'http://mercure:80/.well-known/mercure',
+            new PublisherTokenProvider('aVerySecretKey'),
+            $psr18Client
+        );
+
+        $id = $publisher->send($notification);
+
+        $this->assertSame('1234', $id);
     }
 }
