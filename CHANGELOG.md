@@ -4,7 +4,9 @@ All notable changes to `ntavelis/mercure-php` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [Unreleased]
+## [Unreleased
+
+[0.4.0] - 2020-05-16
 
 ### Added
 - Added a ConfigStamp class, that accepts specific config values for the notifications
