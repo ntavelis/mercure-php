@@ -49,7 +49,6 @@ class PublishController extends AbstractController
 ### Javascript code
 
 ```javascript
-// The subscriber subscribes to updates for any topic matching http://localhost/books/{id}
 const url = new window.URL('http://localhost:3000/.well-known/mercure');
 // We are interested for the topic http://localhost/books/2
 url.searchParams.append('topic', 'http://localhost/books/2');
