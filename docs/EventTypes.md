@@ -2,7 +2,7 @@
 
 We can optionally specify a type when we create a notification class, by doing this we will publish a notification for a given topic with a specific type. 
 
-This will allow us to differentiate the kind of events we want to respond for a specific topic. For example, we can have for a book topic for event types such as `invoice` or `comment`.
+This will allow us to differentiate the kind of events we want to respond for a specific topic. For example, we can publish a notification for a book topic of event type `invoice`.
 
 It is easier to demonstrate with an example:
 
