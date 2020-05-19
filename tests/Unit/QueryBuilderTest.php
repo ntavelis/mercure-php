@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Ntavelis\Mercure\Tests\Unit;
 
+use Ntavelis\Mercure\Config\ConfigStamp;
 use Ntavelis\Mercure\Messages\Notification;
 use Ntavelis\Mercure\QueryBuilder;
 use PHPUnit\Framework\TestCase;
@@ -50,5 +51,19 @@ class QueryBuilderTest extends TestCase
         $queryBuilder = new QueryBuilder($notification);
 
         $this->assertSame('topic=topics&data=%5B%22data%22%5D', (string)$queryBuilder);
+    }
+
+    /** @test */
+    public function ifThereAreNullConfigValuesWeSkipThem(): void
+    {
+        $notification = new Notification(
+            ['topics',],
+            ['data']
+        );
+        $notification->withConfig((new ConfigStamp)->setType('notification'));
+
+        $queryBuilder = new QueryBuilder($notification);
+
+        $this->assertSame('topic=topics&data=%5B%22data%22%5D&type=notification', (string)$queryBuilder);
     }
 }
