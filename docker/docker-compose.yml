@@ -14,8 +14,9 @@ services:
     mercure:
         image: dunglas/mercure
         environment:
-            - JWT_KEY=aVerySecretKey
+            - MERCURE_PUBLISHER_JWT_KEY=aVerySecretKey
+            - MERCURE_SUBSCRIBER_JWT_KEY=aVerySecretKey
         ports:
-            - 3000:80
+            - 3000:443
         labels:
             - traefik.frontend.rule=Host:localhost
