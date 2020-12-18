@@ -49,10 +49,11 @@ jobs:
                 env:
                     JWT_KEY: aVerySecretKey
         steps:
+            -   uses: docker://php:7.2
             -   uses: actions/checkout@v1
-            -   uses: docker://composer:2
-                with:
-                    args: composer install --no-ansi --no-progress
+            -   run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+            -   run: apt update && apt install git zip unzip -y
+            -   run: composer install --no-ansi --no-progress
             -   run: ./vendor/bin/phpunit --testsuite functional-tests
     PSR12_code_style:
         name: PSR 12 Codestyle checks
@@ -72,5 +73,5 @@ jobs:
             -   uses: actions/checkout@v1
             -   uses: docker://composer:2
                 with:
-                    args: composer install --no-ansi --no-progress
+                    args: composer install --no-ansi --no-progressz
             -   run: vendor/bin/phpstan analyse -l 6 src tests
