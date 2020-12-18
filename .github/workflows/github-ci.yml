@@ -5,10 +5,12 @@ jobs:
     unit_tests_php72:
         name: Unit tests PHP 7.2
         runs-on: ubuntu-latest
+        container: php:7.2
         steps:
-            -   uses: docker://php:7.2
             -   uses: actions/checkout@v1
-            -   run: composer install --no-ansi --no-progress
+            -   uses: docker://composer:2
+                with:
+                    args: composer install --no-ansi --no-progress
             -   run: ./vendor/bin/phpunit --coverage-clover=build/coverage.xml --testsuite unit-tests
             -   uses: codecov/codecov-action@v1
                 with:
@@ -18,18 +20,22 @@ jobs:
     unit_tests_php73:
         name: Unit tests PHP 7.3
         runs-on: ubuntu-latest
+        container: php:7.3
         steps:
-            -   uses: docker://php:7.3
             -   uses: actions/checkout@v1
-            -   run: composer install --no-ansi --no-progress
+            -   uses: docker://composer:2
+                with:
+                    args: composer install --no-ansi --no-progress
             -   run: ./vendor/bin/phpunit --testsuite unit-tests
     unit_tests_php74:
         name: Unit tests PHP 7.4
         runs-on: ubuntu-latest
+        container: php:7.4
         steps:
-            -   uses: docker://php:7.4
             -   uses: actions/checkout@v1
-            -   run: composer install --no-ansi --no-progress
+            -   uses: docker://composer:2
+                with:
+                    args: composer install --no-ansi --no-progress
             -   run: ./vendor/bin/phpunit --testsuite unit-tests
     functional_tests_php72:
         name: Functional tests PHP 7.2
@@ -43,25 +49,28 @@ jobs:
                 env:
                     JWT_KEY: aVerySecretKey
         steps:
-            -   uses: docker://php:7.2
             -   uses: actions/checkout@v1
-            -   run: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-            -   run: apt update && apt install git zip unzip -y
-            -   run: composer install --no-ansi --no-progress
+            -   uses: docker://composer:2
+                with:
+                    args: composer install --no-ansi --no-progress
             -   run: ./vendor/bin/phpunit --testsuite functional-tests
     PSR12_code_style:
         name: PSR 12 Codestyle checks
         runs-on: ubuntu-latest
+        container: php:7.2
         steps:
-            -   uses: docker://php:7.2
             -   uses: actions/checkout@v1
-            -   run: composer install --no-ansi --no-progress
+            -   uses: docker://composer:2
+                with:
+                    args: composer install --no-ansi --no-progress
             -   run: ./vendor/bin/phpcs --standard=PSR12 src
     Static_analysis:
         name: Static analysis checks
         runs-on: ubuntu-latest
+        container: php:7.2
         steps:
-            -   uses: docker://php:7.2
             -   uses: actions/checkout@v1
-            -   run: composer install --no-ansi --no-progress
+            -   uses: docker://composer:2
+                with:
+                    args: composer install --no-ansi --no-progress
             -   run: vendor/bin/phpstan analyse -l 6 src tests
