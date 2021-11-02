@@ -20,7 +20,7 @@ jobs:
     PSR12_code_style:
         name: PSR 12 Codestyle checks
         runs-on: ubuntu-latest
-        container: php:7.2
+        container: php:7.4
         steps:
             -   uses: actions/checkout@v1
             -   uses: docker://composer:2
@@ -30,7 +30,7 @@ jobs:
     Static_analysis:
         name: Static analysis checks
         runs-on: ubuntu-latest
-        container: php:7.2
+        container: php:7.4
         steps:
             -   uses: actions/checkout@v1
             -   uses: docker://composer:2
