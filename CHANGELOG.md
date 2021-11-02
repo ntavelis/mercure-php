@@ -9,6 +9,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 [1.0.0] - 2021-11-02
 
 ### Added
+- Minimum requirement php 7.4
 - Updating dependencies
 - Refactored code to support newer version of JWT library
 
