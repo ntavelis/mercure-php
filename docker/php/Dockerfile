@@ -1,4 +1,4 @@
-FROM php:7.2
+FROM php:7.4
 LABEL maintainers="Athanasios Ntavelis <davelis89@gmail.com>"
 
 # Install dependencies
@@ -14,7 +14,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     libzip-dev \
-    curl
+    curl \
+    libonig-dev
 
 # Install extensions
 RUN docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl sockets bcmath

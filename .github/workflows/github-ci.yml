@@ -3,9 +3,9 @@ on: [push]
 
 jobs:
     unit_tests_php72:
-        name: Unit tests PHP 7.2
+        name: Unit tests PHP 7.4
         runs-on: ubuntu-latest
-        container: php:7.2
+        container: php:7.4
         steps:
             -   uses: actions/checkout@v1
             -   uses: docker://composer:2
@@ -17,43 +17,6 @@ jobs:
                     file: ./build/coverage.xml
                     token: ${{secrets.CODECOV_TOKEN}}
                     flags: unittests
-    unit_tests_php73:
-        name: Unit tests PHP 7.3
-        runs-on: ubuntu-latest
-        container: php:7.3
-        steps:
-            -   uses: actions/checkout@v1
-            -   uses: docker://composer:2
-                with:
-                    args: composer install --no-ansi --no-progress
-            -   run: ./vendor/bin/phpunit --testsuite unit-tests
-    unit_tests_php74:
-        name: Unit tests PHP 7.4
-        runs-on: ubuntu-latest
-        container: php:7.4
-        steps:
-            -   uses: actions/checkout@v1
-            -   uses: docker://composer:2
-                with:
-                    args: composer install --no-ansi --no-progress
-            -   run: ./vendor/bin/phpunit --testsuite unit-tests
-#    functional_tests_php72:
-#        name: Functional tests PHP 7.2
-#        # Containers must run in Linux based operating systems
-#        runs-on: ubuntu-latest
-#        # Docker Hub image that `container-job` executes in
-#        container: php:7.2
-#        services:
-#            mercure:
-#                image: dunglas/mercure
-#                env:
-#                    JWT_KEY: aVerySecretKey
-#        steps:
-#            -   uses: actions/checkout@v1
-#            -   uses: docker://composer:2
-#                with:
-#                    args: composer install --no-ansi --no-progress
-#            -   run: ./vendor/bin/phpunit --testsuite functional-tests
     PSR12_code_style:
         name: PSR 12 Codestyle checks
         runs-on: ubuntu-latest
