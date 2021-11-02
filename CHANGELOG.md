@@ -6,7 +6,14 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased
 
-[0.4.0] - 2020-05-16
+[1.0.0] - 2021-11-02
+
+### Added
+- Minimum requirement php 7.4
+- Updating dependencies
+- Refactored code to support newer version of JWT library
+
+- [0.4.0] - 2020-05-16
 
 ### Added
 - Added a ConfigStamp class, that accepts specific config values for the notifications
