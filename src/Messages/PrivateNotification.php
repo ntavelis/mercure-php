@@ -9,16 +9,14 @@ use Ntavelis\Mercure\Contracts\NotificationInterface;
 
 class PrivateNotification implements NotificationInterface
 {
-    private $topics;
-    private $data;
-    private $targets;
-    private $configStamp;
+    private array $topics;
+    private array $data;
+    private ConfigStamp $configStamp;
 
-    public function __construct(array $topics, array $data, array $targets)
+    public function __construct(array $topics, array $data)
     {
         $this->topics = $topics;
         $this->data = $data;
-        $this->targets = $targets;
         $this->configStamp = new ConfigStamp();
     }
 
@@ -30,11 +28,6 @@ class PrivateNotification implements NotificationInterface
     public function getData(): array
     {
         return $this->data;
-    }
-
-    public function getTargets(): array
-    {
-        return $this->targets;
     }
 
     public function getConfigStamp(): ConfigStamp
@@ -49,7 +42,7 @@ class PrivateNotification implements NotificationInterface
 
     public function getTokenData(): array
     {
-        return array_merge($this->getTopics(), $this->getTargets());
+        return $this->getTopics();
     }
 
     public function toArray(): array
@@ -57,10 +50,10 @@ class PrivateNotification implements NotificationInterface
         return [
             'topic' => $this->getTopics(),
             'data' => json_encode($this->getData()),
-            'target' => $this->getTargets(),
             'id' => $this->configStamp->getId(),
             'type' => $this->configStamp->getType(),
             'retry' => $this->configStamp->getRetry(),
+            'private' => 'on' # special flag, marks message private
         ];
     }
 }

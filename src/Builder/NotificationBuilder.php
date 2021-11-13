@@ -55,9 +55,9 @@ class NotificationBuilder
         return $notification;
     }
 
-    public function inPrivateTo(string ...$targets): PrivateNotification
+    public function inPrivate(): PrivateNotification
     {
-        $privateNotification = new PrivateNotification($this->topics, $this->data, $targets);
+        $privateNotification = new PrivateNotification($this->topics, $this->data);
 
         if (isset($this->configStamp)) {
             $privateNotification->withConfig($this->configStamp);

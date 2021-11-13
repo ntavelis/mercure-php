@@ -31,12 +31,11 @@ class NotificationBuilderTest extends TestCase
         $notification = (new NotificationBuilder())
             ->topic('aTopic')
             ->withData(['data' => 'Public Event'])
-            ->inPrivateTo('ntavelis');
+            ->inPrivate();
 
         $this->assertInstanceOf(PrivateNotification::class, $notification);
         $this->assertSame(['aTopic'], $notification->getTopics());
         $this->assertSame(['data' => 'Public Event'], $notification->getData());
-        $this->assertSame(['ntavelis'], $notification->getTargets());
     }
 
     /** @test */
@@ -51,20 +50,6 @@ class NotificationBuilderTest extends TestCase
         $this->assertInstanceOf(Notification::class, $notification);
         $this->assertSame(['aTopic', 'anotherTopic'], $notification->getTopics());
         $this->assertSame(['data' => 'Public Event'], $notification->getData());
-    }
-
-    /** @test */
-    public function itCanAcceptMultipleTargets(): void
-    {
-        $notification = (new NotificationBuilder())
-            ->topic('aTopic')
-            ->withData(['data' => 'Public Event'])
-            ->inPrivateTo('ntavelis', 'anotherOne');
-
-        $this->assertInstanceOf(PrivateNotification::class, $notification);
-        $this->assertSame(['aTopic'], $notification->getTopics());
-        $this->assertSame(['data' => 'Public Event'], $notification->getData());
-        $this->assertSame(['ntavelis', 'anotherOne'], $notification->getTargets());
     }
 
     /** @test */
@@ -89,7 +74,7 @@ class NotificationBuilderTest extends TestCase
             ->topic('aTopic')
             ->withData(['data' => 'Public Event'])
             ->withConfig($configStamp)
-            ->inPrivateTo('ntavelis', 'anotherOne');
+            ->inPrivate();
 
         $this->assertInstanceOf(PrivateNotification::class, $notification);
         $this->assertSame($configStamp, $notification->getConfigStamp());
