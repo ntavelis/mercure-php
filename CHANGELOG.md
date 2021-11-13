@@ -6,6 +6,13 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased
 
+[1.0.1] - 2021-11-13
+
+### Added
+- Updating dev dependencies
+- Cleaner documentation
+- Enabled functional tests in CI
+
 [1.0.0] - 2021-11-02
 
 ### Added
