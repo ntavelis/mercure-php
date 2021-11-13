@@ -45,6 +45,7 @@ jobs:
             mercure:
                 image: dunglas/mercure
                 env:
+                    SERVER_NAME: ':80' # disables HTTPS
                     MERCURE_PUBLISHER_JWT_KEY: aVerySecretKey
                     MERCURE_SUBSCRIBER_JWT_KEY: aVerySecretKey
         steps:
