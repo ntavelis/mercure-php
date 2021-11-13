@@ -22,38 +22,7 @@ $ composer require ntavelis/mercure-php
 
 The mercure hub which is a binary written in GO Lang, should be up and running, in order to accept the messages from the php application.
 
-We suggest installing it locally by using the official docker image:
-
-``` bash
-docker run \
-    -e JWT_KEY='aVerySecretKey' -e ALLOW_ANONYMOUS=1 -e CORS_ALLOWED_ORIGINS=*\
-    -p 3000:80 \
-    dunglas/mercure
-``` 
-
-Or by using a docker-compose configuration:
-
-``` yaml
-version: '3.1'
-
-services:
-    mercure:
-        image: dunglas/mercure
-        environment:
-            - JWT_KEY=aVerySecretKey
-            - ALLOW_ANONYMOUS=1
-            - CORS_ALLOWED_ORIGINS=*
-        ports:
-            - 3000:80
-``` 
-
-Alternatively you can download and run the executable, choose the correct executable for your operating system from [here](https://github.com/dunglas/mercure/releases) and run:
-
-```bash
-JWT_KEY='aVerySecretKey' ADDR=':3000' DEMO=1 ALLOW_ANONYMOUS=1 CORS_ALLOWED_ORIGINS=* PUBLISH_ALLOWED_ORIGINS='http://localhost:3000' ./mercure
-``` 
- 
-Tip: Hit the homepage of the mercure hub for information on how to connect to the hub.
+Please refer to the [official documentation](https://mercure.rocks/docs/hub/install) on how to Install the hub:
  
 ## Sending a public notification
 
@@ -247,7 +216,7 @@ const token = fetch('/subscribe', {
 }).then(response => response.json())
     .then((json) => json.token);
 
-// When we have the token subscribe to the EventSource by passing the toke
+// When we have the token subscribe to the EventSource by passing the token
 token.then((token) => {
     const url = new window.URL('http://localhost:3000/.well-known/mercure');
     url.searchParams.append('topic', 'http://localhost/books/155');
