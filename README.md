@@ -102,12 +102,12 @@ The above example uses native js code, without any library. Please check the [Ev
 
 Optionally we can specify a specific type for our topic and listen only for that type in our frontend, more info [here](docs/EventTypes.md)
 ## Private messages
-Unlike public messages, private messages are not meant to be consumed from everybody. Private messages are messages that are meant to be consumed from a specific list of targets. For example you can publish messages for a specific user, or a list of users. Another example would be to publish messages for the admin role, so every user that is admin would receive them on the client and act upon them.
+Unlike public messages, private messages are not meant to be consumed from everybody. Private messages are messages that are meant to be consumed from authenticated consumers.
 
 To publish and consume private messages we need 3 things:
 1. To publish a private notification from our php server code.
-2. Provide an endpoint to generate the token for our frontend.
-3. Make a request from the client to the backend to get a token that proves we are able to receive the private message and subscribe to events using the token we received.
+2. Provide an endpoint to generate the JWT token for the clients.
+3. Make a request from the client to the backend to get the JWT token that proves we are able to receive the private messages and subscribe to events using the token we received.
 
 ### PHP code (Step 1)
 From our php server code, we now have to use the `Ntavelis\Mercure\Messages\PrivateNotification` class, which receives the same arguments as the Notification class, but marks the notification as private.
@@ -155,7 +155,7 @@ That's it, we published a private message that is meant only for the user `ntave
 Tip: Instead of manually building the classes, you can achieve the same result by using the [fluent API](docs/Builders.md).
 ### Provide the endpoint that will generate the token for the client (Step 2)
 
-To consume the messages in our javascript, we need to provide a valid token when we subscribe to the hub to prove that we are the user `ntavelis` this private notification is meant for. To do this we can make an ajax request to a php endpoint to receive the token.
+To consume the messages in our javascript, we need to provide a valid token when we subscribe to the hub to prove that we are authorized to receive private notifications. To do this we can make an ajax request to a php endpoint to receive the token.
 This package will generate the token for us, we only need to provide an endpoint that the client can call to receive the token.
 
 This is the php code, that generates the token for the client (the subscriber):
@@ -193,13 +193,13 @@ class SubscribeController extends AbstractController
 ```
 In the above example we used the `Ntavelis\Mercure\Providers\SubscriberTokenProvider` to get the token valid for a particular topic.
 
-Note: To authorize the request is up to you, you should check that the request is valid and it can receive private notifications for this topic.
+Note: To authorize the request is up to you, you should check that the request is valid, and it can receive private notifications for this topic.
 
 ### Obtain the token in the client and subscribe to events using that token (Step 3)
 
-Final step that puts it all together, from our client-side code we obtain the token and we subscribe to the events from the hub using this token.
+Final step that puts it all together, from our client-side code we obtain the token, and we subscribe to the events from the hub using this token.
 
-Note: we are gonna use a polyfill library in this example to pass the authorization header to the hub, because it is not natively supported from the EventSource.
+Note: we are going to use a polyfill library in this example to pass the authorization header to the hub, because it is not natively supported from the EventSource.
 
 ```javascript
 // use a polyfill library
