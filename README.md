@@ -184,7 +184,7 @@ class SubscribeController extends AbstractController
         $topic = $contentArray['topic'];
 
         // TODO authorize the request
-        $provider = new SubscriberTokenProvider('pass1234');
+        $provider = new SubscriberTokenProvider('aVerySecretKey');
         $token = $provider->getToken([$topic]);
 
         return new JsonResponse(['token' => $token]);
@@ -203,29 +203,29 @@ Note: we are gonna use a polyfill library in this example to pass the authorizat
 
 ```javascript
 // use a polyfill library
-import EventSource from 'eventsource'
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
-// Make a post request to the server to obtain the token for the user `ntavelis`
+// Make a post request to the server to obtain the token for the topic we want to receive notifications for
 const token = fetch('/subscribe', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify({topic: 'http://localhost/books/155'}), // send the currently authenticated user
+    body: JSON.stringify({topic: 'http://localhost/author/ntavelis/books/155'}), // send the currently authenticated user
 }).then(response => response.json())
     .then((json) => json.token);
 
 // When we have the token subscribe to the EventSource by passing the token
 token.then((token) => {
     const url = new window.URL('http://localhost:3000/.well-known/mercure');
-    url.searchParams.append('topic', 'http://localhost/books/155');
+    url.searchParams.append('topic', 'http://localhost/author/ntavelis/books/155');
     // Authorization header
     const eventSourceInitDict = {
         headers: {
             'Authorization': 'Bearer ' + token
         }
     };
-    const es = new EventSource(url.toString(), eventSourceInitDict);
+    const es = new EventSourcePolyfill(url.toString(), eventSourceInitDict);
     es.onmessage = e => {
         console.log(JSON.parse(e.data));
     };
