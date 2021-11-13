@@ -37,3 +37,20 @@ jobs:
                 with:
                     args: composer install --no-ansi --no-progress
             -   run: vendor/bin/phpstan analyse -l 6 src tests
+    functional_tests_php74:
+        name: Functional tests PHP 7.4
+        runs-on: ubuntu-latest
+        container: php:7.4
+        services:
+            mercure:
+                image: dunglas/mercure
+                env:
+                    SERVER_NAME: ':80' # disables HTTPS
+                    MERCURE_PUBLISHER_JWT_KEY: aVerySecretKey
+                    MERCURE_SUBSCRIBER_JWT_KEY: aVerySecretKey
+        steps:
+            -   uses: actions/checkout@v1
+            -   uses: docker://composer:2
+                with:
+                    args: composer install --no-ansi --no-progress
+            -   run: ./vendor/bin/phpunit --testsuite functional-tests
