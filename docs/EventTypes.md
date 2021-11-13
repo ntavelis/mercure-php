@@ -57,7 +57,7 @@ const eventSource = new EventSource(url.toString());
 
 // we subscribe to event type 'invoice' for this particular topic
 // we will ignore other type of events
-// notice we do not use the `eventSource.onmessage` as we did we we did not specify specific type
+// notice we do not use the `eventSource.onmessage` as we did specify a particular type
 eventSource.addEventListener('invoice', function(e) {
     console.log(JSON.parse(e.data))
 })

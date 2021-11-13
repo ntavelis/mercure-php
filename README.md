@@ -110,7 +110,7 @@ To publish and consume private messages we need 3 things:
 3. Make a request from the client to the backend to get a token that proves we are able to receive the private message and subscribe to events using the token we received.
 
 ### PHP code (Step 1)
-From our php server code, we now have to use the `Ntavelis\Mercure\Messages\PrivateNotification` class, which receives the same arguments as the Notification class with the addition of a third argument, an array of targets this message is meant for.
+From our php server code, we now have to use the `Ntavelis\Mercure\Messages\PrivateNotification` class, which receives the same arguments as the Notification class, but marks the notification as private.
 
 ```php
 <?php
@@ -133,9 +133,8 @@ class PublishController extends AbstractController
     public function index()
     {
         $notification = new PrivateNotification(
-            ['http://localhost/books/155'],
-            ['data' => 'new private event'],
-            ['ntavelis']
+            ['http://localhost/author/ntavelis/books/155'],
+            ['data' => 'new private event']
         );
 
         $publisher = new Publisher(
@@ -151,7 +150,7 @@ class PublishController extends AbstractController
 }
 ```
 
-That's it, we published a private message that is meant only for the user `ntavelis` and is related to the topic `http://localhost/books/155`. Perhaps he is the author of the book in our app and we would like to send a client notification to update his private dashboard.
+That's it, we published a private message that is meant only for the user `ntavelis` as the topic specified `http://localhost/author/ntavelis/books/155`. Perhaps he is the author of the book in our app and we would like to send a client notification to update his private dashboard.
 
 Tip: Instead of manually building the classes, you can achieve the same result by using the [fluent API](docs/Builders.md).
 ### Provide the endpoint that will generate the token for the client (Step 2)
@@ -182,19 +181,19 @@ class SubscribeController extends AbstractController
         $content = $request->getContent();
 
         $contentArray = json_decode($content, true);
-        $username = $contentArray['username'];
-        
-        // TODO authorize the request, by checking that this request actually comes from the user `ntavelis`
-        $provider = new SubscriberTokenProvider('aVerySecretKey');
-        $token = $provider->getToken([$username]); // Get token for user ntavelis
+        $topic = $contentArray['topic'];
+
+        // TODO authorize the request
+        $provider = new SubscriberTokenProvider('pass1234');
+        $token = $provider->getToken([$topic]);
 
         return new JsonResponse(['token' => $token]);
     }
 }
 ```
-In the above example we used the `Ntavelis\Mercure\Providers\SubscriberTokenProvider` to get the token for the user `ntavelis`.
+In the above example we used the `Ntavelis\Mercure\Providers\SubscriberTokenProvider` to get the token valid for a particular topic.
 
-Note: To authorize the request is up to you, you should check that the request is valid and it can receive private notifications for this target, in our case this specific user.
+Note: To authorize the request is up to you, you should check that the request is valid and it can receive private notifications for this topic.
 
 ### Obtain the token in the client and subscribe to events using that token (Step 3)
 
@@ -212,7 +211,7 @@ const token = fetch('/subscribe', {
     headers: {
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify({username: 'ntavelis'}), // send the currently authenticated user
+    body: JSON.stringify({topic: 'http://localhost/books/155'}), // send the currently authenticated user
 }).then(response => response.json())
     .then((json) => json.token);
 
@@ -233,6 +232,10 @@ token.then((token) => {
 });
 ```
 Keep in mind that you can also use cookie based authentication to connect to the hub, you can read more about it [here](https://symfony.com/doc/current/mercure.html#authorization).
+
+## Extra
+
+If you want to configure notifications for a specific type, consult the documentation [here](docs/EventTypes.md). 
 
 ## Change log
 
