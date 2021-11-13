@@ -13,10 +13,20 @@ services:
             - ../:/srv/app
     mercure:
         image: dunglas/mercure
+        restart: unless-stopped
         environment:
-            - MERCURE_PUBLISHER_JWT_KEY=aVerySecretKey
-            - MERCURE_SUBSCRIBER_JWT_KEY=aVerySecretKey
+            # Uncomment the following line to disable HTTPS
+            SERVER_NAME: ':80'
+            MERCURE_PUBLISHER_JWT_KEY: 'aVerySecretKey'
+            MERCURE_SUBSCRIBER_JWT_KEY: 'aVerySecretKey'
+        # Uncomment the following line to enable the development mode
+        command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
         ports:
-            - 3000:443
-        labels:
-            - traefik.frontend.rule=Host:localhost
+            - "3000:80"
+        volumes:
+            - caddy_data:/data
+            - caddy_config:/config
+
+volumes:
+    caddy_data:
+    caddy_config:
