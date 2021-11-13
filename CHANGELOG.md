@@ -6,6 +6,11 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased
 
+[1.1.0] - 2021-11-13
+
+### Changed
+- Changed the way we handle private notifications to comply with the latest changes in mercure hub.
+ 
 [1.0.1] - 2021-11-13
 
 ### Added

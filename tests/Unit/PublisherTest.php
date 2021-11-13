@@ -38,7 +38,7 @@ class PublisherTest extends TestCase
     /** @test */
     public function itCanPublishAPrivateNotificationToTheMercureHub(): void
     {
-        $notification = new PrivateNotification(['topic'], ['data'], ['ntavelis']);
+        $notification = new PrivateNotification(['topic'], ['data']);
 
         $client = $this->createMock(ClientInterface::class);
         $client->expects($this->once())->method('sendRequest')

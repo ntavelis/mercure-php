@@ -75,8 +75,7 @@ class PublishController extends AbstractController
             ->topic('http://localhost/books/155')
 //            ->topic('anotherTopic')
             ->withData(['data' => 'new private event'])
-            ->inPrivateTo('ntavelis');
-//            ->inPrivateTo('ntavelis', 'anotherUser'); // we can pass as many targets we want
+            ->inPrivate();
 
         $publisher->send($notification);
 

@@ -102,15 +102,15 @@ The above example uses native js code, without any library. Please check the [Ev
 
 Optionally we can specify a specific type for our topic and listen only for that type in our frontend, more info [here](docs/EventTypes.md)
 ## Private messages
-Unlike public messages, private messages are not meant to be consumed from everybody. Private messages are messages that are meant to be consumed from a specific list of targets. For example you can publish messages for a specific user, or a list of users. Another example would be to publish messages for the admin role, so every user that is admin would receive them on the client and act upon them.
+Unlike public messages, private messages are not meant to be consumed from everybody. Private messages are messages that are meant to be consumed from authenticated consumers.
 
 To publish and consume private messages we need 3 things:
 1. To publish a private notification from our php server code.
-2. Provide an endpoint to generate the token for our frontend.
-3. Make a request from the client to the backend to get a token that proves we are able to receive the private message and subscribe to events using the token we received.
+2. Provide an endpoint to generate the JWT token for the clients.
+3. Make a request from the client to the backend to get the JWT token that proves we are able to receive the private messages and subscribe to events using the token we received.
 
 ### PHP code (Step 1)
-From our php server code, we now have to use the `Ntavelis\Mercure\Messages\PrivateNotification` class, which receives the same arguments as the Notification class with the addition of a third argument, an array of targets this message is meant for.
+From our php server code, we now have to use the `Ntavelis\Mercure\Messages\PrivateNotification` class, which receives the same arguments as the Notification class, but marks the notification as private.
 
 ```php
 <?php
@@ -133,9 +133,8 @@ class PublishController extends AbstractController
     public function index()
     {
         $notification = new PrivateNotification(
-            ['http://localhost/books/155'],
-            ['data' => 'new private event'],
-            ['ntavelis']
+            ['http://localhost/author/ntavelis/books/155'],
+            ['data' => 'new private event']
         );
 
         $publisher = new Publisher(
@@ -151,12 +150,12 @@ class PublishController extends AbstractController
 }
 ```
 
-That's it, we published a private message that is meant only for the user `ntavelis` and is related to the topic `http://localhost/books/155`. Perhaps he is the author of the book in our app and we would like to send a client notification to update his private dashboard.
+That's it, we published a private message that is meant only for the user `ntavelis` as the topic specified `http://localhost/author/ntavelis/books/155`. Perhaps he is the author of the book in our app and we would like to send a client notification to update his private dashboard.
 
 Tip: Instead of manually building the classes, you can achieve the same result by using the [fluent API](docs/Builders.md).
 ### Provide the endpoint that will generate the token for the client (Step 2)
 
-To consume the messages in our javascript, we need to provide a valid token when we subscribe to the hub to prove that we are the user `ntavelis` this private notification is meant for. To do this we can make an ajax request to a php endpoint to receive the token.
+To consume the messages in our javascript, we need to provide a valid token when we subscribe to the hub to prove that we are authorized to receive private notifications. To do this we can make an ajax request to a php endpoint to receive the token.
 This package will generate the token for us, we only need to provide an endpoint that the client can call to receive the token.
 
 This is the php code, that generates the token for the client (the subscriber):
@@ -182,57 +181,61 @@ class SubscribeController extends AbstractController
         $content = $request->getContent();
 
         $contentArray = json_decode($content, true);
-        $username = $contentArray['username'];
-        
-        // TODO authorize the request, by checking that this request actually comes from the user `ntavelis`
+        $topic = $contentArray['topic'];
+
+        // TODO authorize the request
         $provider = new SubscriberTokenProvider('aVerySecretKey');
-        $token = $provider->getToken([$username]); // Get token for user ntavelis
+        $token = $provider->getToken([$topic]);
 
         return new JsonResponse(['token' => $token]);
     }
 }
 ```
-In the above example we used the `Ntavelis\Mercure\Providers\SubscriberTokenProvider` to get the token for the user `ntavelis`.
+In the above example we used the `Ntavelis\Mercure\Providers\SubscriberTokenProvider` to get the token valid for a particular topic.
 
-Note: To authorize the request is up to you, you should check that the request is valid and it can receive private notifications for this target, in our case this specific user.
+Note: To authorize the request is up to you, you should check that the request is valid, and it can receive private notifications for this topic.
 
 ### Obtain the token in the client and subscribe to events using that token (Step 3)
 
-Final step that puts it all together, from our client-side code we obtain the token and we subscribe to the events from the hub using this token.
+Final step that puts it all together, from our client-side code we obtain the token, and we subscribe to the events from the hub using this token.
 
-Note: we are gonna use a polyfill library in this example to pass the authorization header to the hub, because it is not natively supported from the EventSource.
+Note: we are going to use a polyfill library in this example to pass the authorization header to the hub, because it is not natively supported from the EventSource.
 
 ```javascript
 // use a polyfill library
-import EventSource from 'eventsource'
+import { EventSourcePolyfill } from 'event-source-polyfill';
 
-// Make a post request to the server to obtain the token for the user `ntavelis`
+// Make a post request to the server to obtain the token for the topic we want to receive notifications for
 const token = fetch('/subscribe', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify({username: 'ntavelis'}), // send the currently authenticated user
+    body: JSON.stringify({topic: 'http://localhost/author/ntavelis/books/155'}), // send the currently authenticated user
 }).then(response => response.json())
     .then((json) => json.token);
 
 // When we have the token subscribe to the EventSource by passing the token
 token.then((token) => {
     const url = new window.URL('http://localhost:3000/.well-known/mercure');
-    url.searchParams.append('topic', 'http://localhost/books/155');
+    url.searchParams.append('topic', 'http://localhost/author/ntavelis/books/155');
     // Authorization header
     const eventSourceInitDict = {
         headers: {
             'Authorization': 'Bearer ' + token
         }
     };
-    const es = new EventSource(url.toString(), eventSourceInitDict);
+    const es = new EventSourcePolyfill(url.toString(), eventSourceInitDict);
     es.onmessage = e => {
         console.log(JSON.parse(e.data));
     };
 });
 ```
 Keep in mind that you can also use cookie based authentication to connect to the hub, you can read more about it [here](https://symfony.com/doc/current/mercure.html#authorization).
+
+## Extra
+
+If you want to configure notifications for a specific type, consult the documentation [here](docs/EventTypes.md). 
 
 ## Change log
 

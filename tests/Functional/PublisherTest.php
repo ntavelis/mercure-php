@@ -38,7 +38,6 @@ class PublisherTest extends TestCase
         $notification = new PrivateNotification(
             ['http://localhost:3000/demo/books/1.jsonld'],
             ['key' => 'updated value'],
-            ['ntavelis']
         );
 
         $psr18Client = new Psr18Client();
@@ -61,7 +60,6 @@ class PublisherTest extends TestCase
         $notification = new PrivateNotification(
             ['http://localhost:3000/demo/books/1.jsonld'],
             ['key' => 'updated value'],
-            ['ntavelis']
         );
 
         $psr18Client = new Psr18Client();
