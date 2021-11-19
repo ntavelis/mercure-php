@@ -211,7 +211,7 @@ const token = fetch('/subscribe', {
     headers: {
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify({topic: 'http://localhost/author/ntavelis/books/155'}), // send the currently authenticated user
+    body: JSON.stringify({topic: 'http://localhost/author/ntavelis/books/155'}), // send the topic we need to authenticate on
 }).then(response => response.json())
     .then((json) => json.token);
 
