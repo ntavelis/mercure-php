@@ -2,7 +2,7 @@ name: CI
 on: [push]
 
 jobs:
-    unit_tests_php72:
+    unit_tests_php74:
         name: Unit tests PHP 7.4
         runs-on: ubuntu-latest
         container: php:7.4
