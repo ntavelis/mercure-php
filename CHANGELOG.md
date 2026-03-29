@@ -4,9 +4,33 @@ All notable changes to `ntavelis/mercure-php` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## [Unreleased
+## [Unreleased]
 
-[1.1.0] - 2021-11-13
+## [2.0.0] - 2026-03-29
+
+### Breaking Changes
+- Minimum PHP version raised to 8.3
+- `PublisherTokenProvider` and `SubscriberTokenProvider` now throw `InvalidSecretKeyLengthException` if the secret key is shorter than 32 characters (256 bits)
+
+### Added
+- `InvalidSecretKeyLengthException` to enforce HMAC-SHA256 minimum key length requirement
+- PHP 8.3 and 8.5 added to CI test matrix (unit and functional)
+
+### Changed
+- Bumped `lcobucci/jwt` from `^4.1.5` to `^5.6`
+- Bumped `nyholm/psr7` from `^1.4.1` to `^1.8`
+- Bumped `phpstan/phpstan` from `^0.12` to `^1.0`
+- Bumped `phpunit/phpunit` from `^8.0` to `^11.0`
+- Bumped `symfony/http-client` from `^5.3` to `^6.0`
+- All properties now use typed declarations
+- PHPUnit test annotations migrated from `@test` docblocks to `#[Test]` attributes
+- PHPUnit XML configuration migrated to new schema
+
+### Fixed
+- Missing `declare(strict_types=1)` in `TokenProviderInterface`
+- `$topics` property in `NotificationBuilder` now explicitly initialized to empty array
+
+## [1.1.0] - 2021-11-13
 
 ### Changed
 - Changed the way we handle private notifications to comply with the latest changes in mercure hub.
