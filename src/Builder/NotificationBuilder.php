@@ -10,14 +10,8 @@ use Ntavelis\Mercure\Messages\PrivateNotification;
 
 class NotificationBuilder
 {
-    /**
-     * @var string[]
-     */
-    private $topics = [];
-    /**
-     * @var array
-     */
-    private $data;
+    private array $topics = [];
+    private array $data;
     /**
      * @var ConfigStamp|null
      */

@@ -8,7 +8,7 @@ use Ntavelis\Mercure\Contracts\NotificationInterface;
 
 class QueryBuilder
 {
-    private $message;
+    private NotificationInterface $message;
 
     public function __construct(NotificationInterface $message)
     {

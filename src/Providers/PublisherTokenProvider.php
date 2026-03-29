@@ -12,7 +12,7 @@ use Ntavelis\Mercure\Exceptions\InvalidSecretKeyLengthException;
 
 class PublisherTokenProvider implements TokenProviderInterface
 {
-    private $token;
+    private string $token;
 
     public function __construct(string $token)
     {

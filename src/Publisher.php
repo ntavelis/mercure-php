@@ -17,9 +17,9 @@ use Psr\Http\Message\StreamInterface;
 
 class Publisher implements PublisherInterface
 {
-    private $mercureHubUrl;
-    private $tokenProvider;
-    private $client;
+    private string $mercureHubUrl;
+    private TokenProviderInterface $tokenProvider;
+    private ClientInterface $client;
 
     public function __construct(
         string $mercureHubUrl,
