@@ -8,6 +8,7 @@ jobs:
         container: php:8.3
         steps:
             -   uses: actions/checkout@v1
+            -   run: pecl install pcov && docker-php-ext-enable pcov
             -   uses: docker://composer:2
                 with:
                     args: composer install --no-ansi --no-progress
