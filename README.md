@@ -9,12 +9,16 @@ This package publishes notifications to the mercure hub from your php applicatio
 
 Shoutout to [dunglas](https://github.com/dunglas) for his work in the [mercure project](https://github.com/dunglas/mercure/blob/master/spec/mercure.md).
 
+## Requirements
+
+- PHP 8.3+
+
 ## Install
 
 Install the package via Composer
 
-``` bash
-$ composer require ntavelis/mercure-php
+```bash
+composer require ntavelis/mercure-php
 ```
 
 ## Mercure Hub installation
@@ -27,11 +31,14 @@ Please refer to the [official documentation](https://mercure.rocks/docs/hub/inst
 
 We need to publish messages from our php server to the mercure hub and then consume them in our client, in this example in a browser via javascript.
 
-### PHP code 
+### PHP code
 
-The below example is a controller, in symfony framework:
+The below example is a controller in the Symfony framework:
+
 ```php
 <?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -41,21 +48,22 @@ use Ntavelis\Mercure\Publisher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class PublishController extends AbstractController
 {
-    /**
-     * @Route("/publish", name="publish")
-     */
-    public function index()
+    #[Route('/publish', name: 'publish')]
+    public function index(): JsonResponse
     {
-        $notification = new Notification(['http://localhost/books/2'], ['data' => 'new public event']);
-        
+        $notification = new Notification(
+            topics: ['http://localhost/books/2'],
+            data: ['message' => 'new public event'],
+        );
+
         $publisher = new Publisher(
-            'http://localhost:3000/.well-known/mercure',
-            new PublisherTokenProvider('aVerySecretKey'),
-            new Psr18Client()
+            mercureHubUrl: 'http://localhost:3000/.well-known/mercure',
+            tokenProvider: new PublisherTokenProvider('your-very-secret-key-at-least-32-chars'),
+            client: new Psr18Client(),
         );
 
         $publisher->send($notification);
@@ -63,9 +71,10 @@ class PublishController extends AbstractController
         return new JsonResponse(['success']);
     }
 }
-``` 
+```
 
-Note: When we initialize the publisher we need to pass a PSR-18 compliant client, in our example we use the symfony/http-client. This package does not provide a client you need to initialize and pass one to the publisher yourself. e.g. To provide the symfony http-client you need to install it first via composer: 
+Note: The publisher requires a PSR-18 compliant HTTP client. This package does not bundle one — you must install and pass it yourself. To use the Symfony HTTP client:
+
 ```bash
 composer require symfony/http-client
 ```
@@ -109,10 +118,13 @@ To publish and consume private messages we need 3 things:
 3. Make a request from the client to the backend to get the JWT token that proves we are able to receive the private messages and subscribe to events using the token we received.
 
 ### PHP code (Step 1)
-From our php server code, we now have to use the `Ntavelis\Mercure\Messages\PrivateNotification` class, which receives the same arguments as the Notification class, but marks the notification as private.
+
+From our PHP server code, we now have to use the `Ntavelis\Mercure\Messages\PrivateNotification` class, which receives the same arguments as `Notification` but marks the notification as private.
 
 ```php
 <?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -122,24 +134,22 @@ use Ntavelis\Mercure\Publisher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class PublishController extends AbstractController
 {
-    /**
-     * @Route("/publish", name="publish")
-     */
-    public function index()
+    #[Route('/publish', name: 'publish')]
+    public function index(): JsonResponse
     {
         $notification = new PrivateNotification(
-            ['http://localhost/author/ntavelis/books/155'],
-            ['data' => 'new private event']
+            topics: ['http://localhost/author/ntavelis/books/155'],
+            data: ['message' => 'new private event'],
         );
 
         $publisher = new Publisher(
-            'http://localhost:3000/.well-known/mercure',
-            new PublisherTokenProvider('aVerySecretKey'),
-            new Psr18Client()
+            mercureHubUrl: 'http://localhost:3000/.well-known/mercure',
+            tokenProvider: new PublisherTokenProvider('your-very-secret-key-at-least-32-chars'),
+            client: new Psr18Client(),
         );
 
         $publisher->send($notification);
@@ -157,10 +167,12 @@ Tip: Instead of manually building the classes, you can achieve the same result b
 To consume the messages in our javascript, we need to provide a valid token when we subscribe to the hub to prove that we are authorized to receive private notifications. To do this we can make an ajax request to a php endpoint to receive the token.
 This package will generate the token for us, we only need to provide an endpoint that the client can call to receive the token.
 
-This is the php code, that generates the token for the client (the subscriber):
+This is the PHP code that generates the token for the client (the subscriber):
 
 ```php
 <?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -168,22 +180,18 @@ use Ntavelis\Mercure\Providers\SubscriberTokenProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 class SubscribeController extends AbstractController
 {
-    /**
-     * @Route("/subscribe", name="subscribe")
-     */
-    public function index(Request $request)
+    #[Route('/subscribe', name: 'subscribe', methods: ['POST'])]
+    public function index(Request $request): JsonResponse
     {
-        $content = $request->getContent();
+        $content = json_decode($request->getContent(), true);
+        $topic = $content['topic'];
 
-        $contentArray = json_decode($content, true);
-        $topic = $contentArray['topic'];
-
-        // TODO authorize the request
-        $provider = new SubscriberTokenProvider('aVerySecretKey');
+        // TODO: authorize the request before issuing a token
+        $provider = new SubscriberTokenProvider('your-very-secret-key-at-least-32-chars');
         $token = $provider->getToken([$topic]);
 
         return new JsonResponse(['token' => $token]);
