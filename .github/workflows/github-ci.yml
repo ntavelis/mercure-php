@@ -2,10 +2,10 @@ name: CI
 on: [push]
 
 jobs:
-    unit_tests_php74:
-        name: Unit tests PHP 7.4
+    unit_tests_php83:
+        name: Unit tests PHP 8.3
         runs-on: ubuntu-latest
-        container: php:7.4
+        container: php:8.3
         steps:
             -   uses: actions/checkout@v1
             -   uses: docker://composer:2
@@ -17,10 +17,20 @@ jobs:
                     file: ./build/coverage.xml
                     token: ${{secrets.CODECOV_TOKEN}}
                     flags: unittests
+    unit_tests_php85:
+        name: Unit tests PHP 8.5
+        runs-on: ubuntu-latest
+        container: php:8.5
+        steps:
+            -   uses: actions/checkout@v1
+            -   uses: docker://composer:2
+                with:
+                    args: composer install --no-ansi --no-progress
+            -   run: ./vendor/bin/phpunit --testsuite unit-tests
     PSR12_code_style:
         name: PSR 12 Codestyle checks
         runs-on: ubuntu-latest
-        container: php:7.4
+        container: php:8.3
         steps:
             -   uses: actions/checkout@v1
             -   uses: docker://composer:2
@@ -30,17 +40,17 @@ jobs:
     Static_analysis:
         name: Static analysis checks
         runs-on: ubuntu-latest
-        container: php:7.4
+        container: php:8.3
         steps:
             -   uses: actions/checkout@v1
             -   uses: docker://composer:2
                 with:
                     args: composer install --no-ansi --no-progress
             -   run: vendor/bin/phpstan analyse -l 6 src tests
-    functional_tests_php74:
-        name: Functional tests PHP 7.4
+    functional_tests_php83:
+        name: Functional tests PHP 8.3
         runs-on: ubuntu-latest
-        container: php:7.4
+        container: php:8.3
         services:
             mercure:
                 image: dunglas/mercure
@@ -54,16 +64,6 @@ jobs:
                 with:
                     args: composer install --no-ansi --no-progress
             -   run: ./vendor/bin/phpunit --testsuite functional-tests
-    unit_tests_php85:
-        name: Unit tests PHP 8.5
-        runs-on: ubuntu-latest
-        container: php:8.5
-        steps:
-            -   uses: actions/checkout@v1
-            -   uses: docker://composer:2
-                with:
-                    args: composer install --no-ansi --no-progress
-            -   run: ./vendor/bin/phpunit --testsuite unit-tests
     functional_tests_php85:
         name: Functional tests PHP 8.5
         runs-on: ubuntu-latest
