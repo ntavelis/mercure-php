@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Ntavelis\Mercure\Tests\Unit\Config;
 
 use Ntavelis\Mercure\Config\ConfigStamp;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ConfigStampTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function itContainsConfigurationValuesThatCanBeUsedToNotificationMessages(): void
     {
         $configStamp = new ConfigStamp('notification', '1234', 30);
@@ -19,7 +20,7 @@ class ConfigStampTest extends TestCase
         $this->assertSame(30, $configStamp->getRetry());
     }
 
-    /** @test */
+    #[Test]
     public function itCanBeConfiguredThroughSetterFunctions(): void
     {
         $configStamp = new ConfigStamp();
@@ -33,7 +34,7 @@ class ConfigStampTest extends TestCase
         $this->assertSame(30, $configStamp->getRetry());
     }
 
-    /** @test */
+    #[Test]
     public function itCanBeConfiguredThroughSetterFunctionsInAFluentWay(): void
     {
         $configStamp = new ConfigStamp();

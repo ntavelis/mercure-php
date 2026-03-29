@@ -12,13 +12,14 @@ use Ntavelis\Mercure\Providers\PublisherTokenProvider;
 use Ntavelis\Mercure\Publisher;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\Stream;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 
 class PublisherTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function itCanPublishANotificationToTheMercureHub(): void
     {
         $notification = new Notification(['topic'], ['data']);
@@ -28,14 +29,14 @@ class PublisherTest extends TestCase
             ->willReturn(new Response(200, [], Stream::create('1b6bcc96-c54e-4776-884c-5812c9ea8a71')));
         $publisher = new Publisher(
             'http://hub-url.com',
-            new PublisherTokenProvider('token'),
+            new PublisherTokenProvider('aVerySecretKeyThatIsAtLeast256Bi'),
             $client
         );
 
         $publisher->send($notification);
     }
 
-    /** @test */
+    #[Test]
     public function itCanPublishAPrivateNotificationToTheMercureHub(): void
     {
         $notification = new PrivateNotification(['topic'], ['data']);
@@ -45,14 +46,14 @@ class PublisherTest extends TestCase
             ->willReturn(new Response(200, [], Stream::create('1b6bcc96-c54e-4776-884c-5812c9ea8a71')));
         $publisher = new Publisher(
             'http://hub-url.com',
-            new PublisherTokenProvider('token'),
+            new PublisherTokenProvider('aVerySecretKeyThatIsAtLeast256Bi'),
             $client
         );
 
         $publisher->send($notification);
     }
 
-    /** @test */
+    #[Test]
     public function ifWeCanNotPublishToTheHubWeThrowAnException(): void
     {
         $this->expectException(UnableToSendNotificationException::class);
@@ -65,14 +66,14 @@ class PublisherTest extends TestCase
             ->willThrowException($this->createMock(ClientExceptionInterface::class));
         $publisher = new Publisher(
             'http://hub-url.com',
-            new PublisherTokenProvider('token'),
+            new PublisherTokenProvider('aVerySecretKeyThatIsAtLeast256Bi'),
             $client
         );
 
         $publisher->send($notification);
     }
 
-    /** @test */
+    #[Test]
     public function ifWeGetAResponseWithStatusOtherThan200WeThrowAnException(): void
     {
         $this->expectException(UnableToSendNotificationException::class);
@@ -85,14 +86,14 @@ class PublisherTest extends TestCase
             ->willReturn(new Response(401, [], Stream::create("Unauthorized\n")));
         $publisher = new Publisher(
             'http://hub-url.com',
-            new PublisherTokenProvider('token'),
+            new PublisherTokenProvider('aVerySecretKeyThatIsAtLeast256Bi'),
             $client
         );
 
         $publisher->send($notification);
     }
 
-    /** @test */
+    #[Test]
     public function ifTheMessageContainsConfigValuesTheyWillBeSendToTheHub(): void
     {
         $notification = new Notification(['topic'], ['data']);
@@ -104,7 +105,7 @@ class PublisherTest extends TestCase
             ->willReturn(new Response(200, [], Stream::create('1b6bcc96-c54e-4776-884c-5812c9ea8a71')));
         $publisher = new Publisher(
             'http://hub-url.com',
-            new PublisherTokenProvider('token'),
+            new PublisherTokenProvider('aVerySecretKeyThatIsAtLeast256Bi'),
             $client
         );
 

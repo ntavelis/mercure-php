@@ -6,11 +6,12 @@ namespace Ntavelis\Mercure\Tests\Unit\Messages;
 
 use Ntavelis\Mercure\Config\ConfigStamp;
 use Ntavelis\Mercure\Messages\PrivateNotification;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class PrivateNotificationTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function itHoldTheInformationThatWillBeSendToTheDockerHub(): void
     {
         $privateNotification = new PrivateNotification(['topics'], ['data']);
@@ -19,7 +20,7 @@ class PrivateNotificationTest extends TestCase
         $this->assertSame(['data'], $privateNotification->getData());
     }
 
-    /** @test */
+    #[Test]
     public function itCanReturnAJsonRepresentationOfItSelf(): void
     {
         $privateNotification = new PrivateNotification(['topics'], ['data']);
@@ -34,7 +35,7 @@ class PrivateNotificationTest extends TestCase
         ], $privateNotification->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function itCanBeConfiguredThroughAConfigStampClass(): void
     {
         $notification = new PrivateNotification(['topics'], ['data']);

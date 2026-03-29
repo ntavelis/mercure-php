@@ -19,9 +19,9 @@ class NotificationBuilder
      */
     private $data;
     /**
-     * @var ConfigStamp
+     * @var ConfigStamp|null
      */
-    private $configStamp;
+    private ?ConfigStamp $configStamp = null;
 
     public function topic(string $topic): NotificationBuilder
     {

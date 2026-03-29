@@ -56,8 +56,8 @@ jobs:
                 image: dunglas/mercure
                 env:
                     SERVER_NAME: ':80' # disables HTTPS
-                    MERCURE_PUBLISHER_JWT_KEY: aVerySecretKey
-                    MERCURE_SUBSCRIBER_JWT_KEY: aVerySecretKey
+                    MERCURE_PUBLISHER_JWT_KEY: aVerySecretKeyThatIsAtLeast256Bi
+                    MERCURE_SUBSCRIBER_JWT_KEY: aVerySecretKeyThatIsAtLeast256Bi
         steps:
             -   uses: actions/checkout@v1
             -   uses: docker://composer:2
@@ -73,8 +73,8 @@ jobs:
                 image: dunglas/mercure
                 env:
                     SERVER_NAME: ':80' # disables HTTPS
-                    MERCURE_PUBLISHER_JWT_KEY: aVerySecretKey
-                    MERCURE_SUBSCRIBER_JWT_KEY: aVerySecretKey
+                    MERCURE_PUBLISHER_JWT_KEY: aVerySecretKeyThatIsAtLeast256Bi
+                    MERCURE_SUBSCRIBER_JWT_KEY: aVerySecretKeyThatIsAtLeast256Bi
         steps:
             -   uses: actions/checkout@v1
             -   uses: docker://composer:2

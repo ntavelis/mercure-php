@@ -8,6 +8,7 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Ntavelis\Mercure\Contracts\TokenProviderInterface;
+use Ntavelis\Mercure\Exceptions\InvalidSecretKeyLengthException;
 
 class SubscriberTokenProvider implements TokenProviderInterface
 {
@@ -15,6 +16,9 @@ class SubscriberTokenProvider implements TokenProviderInterface
 
     public function __construct(string $token)
     {
+        if (strlen($token) < 32) {
+            throw new InvalidSecretKeyLengthException('The secret key must be at least 32 characters (256 bits).');
+        }
         $this->token = $token;
     }
 
