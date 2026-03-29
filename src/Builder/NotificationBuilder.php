@@ -13,7 +13,7 @@ class NotificationBuilder
     /**
      * @var string[]
      */
-    private $topics;
+    private $topics = [];
     /**
      * @var array
      */
