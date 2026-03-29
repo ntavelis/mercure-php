@@ -6,24 +6,9 @@ namespace Ntavelis\Mercure\Config;
 
 final class ConfigStamp
 {
-    /**
-     * The SSE's event property (a specific event type).
-     * @var string
-     */
-    private $type;
-    /**
-     * The topic's revision identifier: it will be used as the SSE's id property.
-     * If omitted, the hub MUST generate a valid globally unique id.
-     * It MAY be a UUID (RFC4122). Even if provided,
-     * the hub MAY ignore the id provided by the client and generate its own id.
-     * @var string
-     */
-    private $id;
-    /**
-     * The SSE's retry property (the reconnection time).
-     * @var int
-     */
-    private $retry;
+    private ?string $type;
+    private ?string $id;
+    private ?int $retry;
 
     public function __construct(?string $type = null, ?string $id = null, ?int $retry = null)
     {

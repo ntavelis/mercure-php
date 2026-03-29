@@ -6,11 +6,12 @@ namespace Ntavelis\Mercure\Tests\Unit\Messages;
 
 use Ntavelis\Mercure\Config\ConfigStamp;
 use Ntavelis\Mercure\Messages\Notification;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class NotificationTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function itHoldsTheInformationThatWillBeSendToMercureHub(): void
     {
         $notification = new Notification(['topics'], ['data']);
@@ -19,7 +20,7 @@ class NotificationTest extends TestCase
         $this->assertSame(['data'], $notification->getData());
     }
 
-    /** @test */
+    #[Test]
     public function itCanReturnAnArrayRepresentationOfItSelf(): void
     {
         $notification = new Notification(['topics'], ['data-that-will-get-json-encoded']);
@@ -33,7 +34,7 @@ class NotificationTest extends TestCase
         ], $notification->toArray());
     }
 
-    /** @test */
+    #[Test]
     public function itCanBeConfiguredThroughAConfigStampClass(): void
     {
         $notification = new Notification(['topics'], ['data']);

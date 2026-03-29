@@ -10,12 +10,13 @@ use Ntavelis\Mercure\Messages\Notification;
 use Ntavelis\Mercure\Messages\PrivateNotification;
 use Ntavelis\Mercure\Providers\PublisherTokenProvider;
 use Ntavelis\Mercure\Publisher;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\Psr18Client;
 
 class PublisherTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function itCanSuccessfullyPublishAPublicMessage(): void
     {
         $notification = new Notification(['http://localhost:3000/demo/books/1.jsonld'], ['key' => 'updated value']);
@@ -23,7 +24,7 @@ class PublisherTest extends TestCase
         $psr18Client = new Psr18Client();
         $publisher = new Publisher(
             'http://mercure:80/.well-known/mercure',
-            new PublisherTokenProvider('aVerySecretKey'),
+            new PublisherTokenProvider('aVerySecretKeyThatIsAtLeast256Bi'),
             $psr18Client
         );
 
@@ -32,7 +33,7 @@ class PublisherTest extends TestCase
         $this->assertNotEmpty($id);
     }
 
-    /** @test */
+    #[Test]
     public function itCanSuccessfullyPublishAPrivateMessage(): void
     {
         $notification = new PrivateNotification(
@@ -43,7 +44,7 @@ class PublisherTest extends TestCase
         $psr18Client = new Psr18Client();
         $publisher = new Publisher(
             'http://mercure:80/.well-known/mercure',
-            new PublisherTokenProvider('aVerySecretKey'),
+            new PublisherTokenProvider('aVerySecretKeyThatIsAtLeast256Bi'),
             $psr18Client
         );
 
@@ -52,7 +53,7 @@ class PublisherTest extends TestCase
         $this->assertNotEmpty($id);
     }
 
-    /** @test */
+    #[Test]
     public function ifWeGetAStatusNotEqualTo200WeThrowAnException(): void
     {
         $this->expectException(UnableToSendNotificationException::class);
@@ -65,14 +66,14 @@ class PublisherTest extends TestCase
         $psr18Client = new Psr18Client();
         $publisher = new Publisher(
             'http://mercure:80/.well-known/mercure',
-            new PublisherTokenProvider('wrong_key'),
+            new PublisherTokenProvider('aWrongSecretKeyThatIsAtLeast256Bi'),
             $psr18Client
         );
 
         $publisher->send($notification);
     }
 
-    /** @test */
+    #[Test]
     public function itCanSuccessfullyPublishAPublicMessageWithConfigValues(): void
     {
         $notification = new Notification(['http://localhost:3000/demo/books/1.jsonld'], ['key' => 'updated value']);
@@ -82,7 +83,7 @@ class PublisherTest extends TestCase
         $psr18Client = new Psr18Client();
         $publisher = new Publisher(
             'http://mercure:80/.well-known/mercure',
-            new PublisherTokenProvider('aVerySecretKey'),
+            new PublisherTokenProvider('aVerySecretKeyThatIsAtLeast256Bi'),
             $psr18Client
         );
 

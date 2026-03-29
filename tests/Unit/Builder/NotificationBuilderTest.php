@@ -8,11 +8,12 @@ use Ntavelis\Mercure\Builder\NotificationBuilder;
 use Ntavelis\Mercure\Config\ConfigStamp;
 use Ntavelis\Mercure\Messages\Notification;
 use Ntavelis\Mercure\Messages\PrivateNotification;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class NotificationBuilderTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function itCanBuildANotificationFluently(): void
     {
         $notification = (new NotificationBuilder())
@@ -25,7 +26,7 @@ class NotificationBuilderTest extends TestCase
         $this->assertSame(['data' => 'Public Event'], $notification->getData());
     }
 
-    /** @test */
+    #[Test]
     public function itCanBuildAPrivateNotificationFluently(): void
     {
         $notification = (new NotificationBuilder())
@@ -38,7 +39,7 @@ class NotificationBuilderTest extends TestCase
         $this->assertSame(['data' => 'Public Event'], $notification->getData());
     }
 
-    /** @test */
+    #[Test]
     public function itCanAcceptMultipleTopics(): void
     {
         $notification = (new NotificationBuilder())
@@ -52,7 +53,7 @@ class NotificationBuilderTest extends TestCase
         $this->assertSame(['data' => 'Public Event'], $notification->getData());
     }
 
-    /** @test */
+    #[Test]
     public function itCanBuildANotificationFluentlyWithConfigValues(): void
     {
         $configStamp = (new ConfigStamp)->setType('notification');
@@ -66,7 +67,7 @@ class NotificationBuilderTest extends TestCase
         $this->assertSame($configStamp, $notification->getConfigStamp());
     }
 
-    /** @test */
+    #[Test]
     public function itCanBuildANotificationFluentlyWithConfigValuesAndForPrivateMessages(): void
     {
         $configStamp = (new ConfigStamp)->setType('notification');

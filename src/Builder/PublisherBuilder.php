@@ -10,18 +10,9 @@ use Psr\Http\Client\ClientInterface;
 
 class PublisherBuilder
 {
-    /**
-     * @var string
-     */
-    private $url;
-    /**
-     * @var string
-     */
-    private $key;
-    /**
-     * @var ClientInterface
-     */
-    private $psr18client;
+    private string $url;
+    private string $key;
+    private ClientInterface $psr18client;
 
     public function mercureHubUrl(string $url): PublisherBuilder
     {

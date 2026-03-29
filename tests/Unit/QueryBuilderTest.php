@@ -7,11 +7,12 @@ namespace Ntavelis\Mercure\Tests\Unit;
 use Ntavelis\Mercure\Config\ConfigStamp;
 use Ntavelis\Mercure\Messages\Notification;
 use Ntavelis\Mercure\QueryBuilder;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class QueryBuilderTest extends TestCase
 {
-    /** @test */
+    #[Test]
     public function itCanBuildAQueryStringGivenAMessageClass(): void
     {
         $notification = new Notification(['topics'], ['data']);
@@ -21,7 +22,7 @@ class QueryBuilderTest extends TestCase
         $this->assertSame('topic=topics&data=%5B%22data%22%5D', (string)$queryBuilder);
     }
 
-    /** @test */
+    #[Test]
     public function itCanBuildAQueryStringWithMultipleTopics(): void
     {
         $notification = new Notification(
@@ -37,7 +38,7 @@ class QueryBuilderTest extends TestCase
         $this->assertSame('topic=topic1&topic=topic2&data=%5B%22data%22%5D', (string)$queryBuilder);
     }
 
-    /** @test */
+    #[Test]
     public function itCanBuildAQueryStringAndItWillSkippNullValues(): void
     {
         $notification = new Notification(
@@ -53,7 +54,7 @@ class QueryBuilderTest extends TestCase
         $this->assertSame('topic=topics&data=%5B%22data%22%5D', (string)$queryBuilder);
     }
 
-    /** @test */
+    #[Test]
     public function ifThereAreNullConfigValuesWeSkipThem(): void
     {
         $notification = new Notification(
